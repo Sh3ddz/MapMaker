@@ -1,17 +1,17 @@
 # MapMaker
 2d Game map editor.
 
-# This is a work in progress and no where near complete. I will update periodically
+**This is a work in progress and no where near complete. I will update periodically**
 
-# TO DO 
-	  : work on menu state [could use better graphics lol.]
-	  : Implement world saving to a text file [Pretty much finished.]-----------------------[Needs to be able to choose file name and location its saved to.]
-		: add tile selection menu [finished with currently added tiles]-----------------------
-	  : fix zooming issues. [mainly fixed, other than offset]-------------------------------
-	  : add an undo option []
-	  : maybe add an option to make larger brush sizes [probably not.]
-	  : ADD A NEW WORLD OPTION TO CREATE NEW WORLDS
-			-POTENTIAL PROCEDURAL GENERATION OPTION
-			-BIOME GENERATION
-			-MINECRAFT ESQUE IN A WAY.
-			-DIFFERENT DEFAULT SETTINGS SUCH AS - default grass world, different sized worlds etc.
+**TO DO:**
+1. work on menu state [Could use better graphics lol.]
+2. Implement world saving to a text file [Can save the file, but needs to be able to choose file name and location its saved to.]
+3. add tile selection menu [Finished with currently added tiles]
+4. fix zooming issues. [Mainly fixed, also added limits]
+5. add an undo option []
+6. maybe add an option to make larger brush sizes [probably not, dont really see a reason too anymore]
+7. ADD A BUNCH MORE TILES []
+8. ADD A NEW WORLD OPTION TO CREATE NEW WORLDS []
+	1. POTENTIAL PROCEDURAL GENERATION OPTION (so the world generates and grows as the user scrolls) []
+	2. BIOME GENERATION []
+	4. DIFFERENT DEFAULT SETTINGS SUCH AS - default grass world, different sized worlds etc. []
