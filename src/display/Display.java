@@ -50,5 +50,4 @@ public class Display
 	{
 		return frame;
 	}
-	
 }

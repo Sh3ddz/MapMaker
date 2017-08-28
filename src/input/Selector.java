@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.io.IOException;
 
 import gfx.Assets;
+import gfx.Sound;
 import main.Handler;
 import states.State;
 import tiles.Tile;
@@ -80,10 +81,7 @@ public class Selector
 	
 	public Tile getTileOnLocation()
 	{
-		Tile tile = null;
-		tile = handler.getWorld().getTile(tileX, tileY); 
-		System.out.println(tile.getId());
-		return tile;
+		return handler.getWorld().getTile(tileX, tileY);
 	}
 	
 	//changing the tile on a specific location to a new tile.
@@ -138,7 +136,11 @@ public class Selector
 			//LEFT CLICKING ON TILES, so they can be changed.
 			if(handler.getKeyManager().leftClick)
 			{
-				 updateTileOnLocation(tileX, tileY, newTileId);
+				if(this.newTileId != getTileOnLocation().getId()) //so it doesnt place the same tile thats already on the loc
+				{	
+					updateTileOnLocation(tileX, tileY, newTileId);
+					Sound.playSfx("placeTile.wav");
+				}
 			}
 			//RIGHT CLICKING ON TILES, gets current tile
 			if(handler.getKeyManager().rightClick)
@@ -152,7 +154,7 @@ public class Selector
 			}
 		}
 	
-		//swapping between tileselection state and mapmaker state
+		//swapping between tileselection state, mapmaker state, and menu state
 		if(handler.getKeyManager().stateSwap || handler.getKeyManager().escape)
 		{
 			stateSwap(State.getState());

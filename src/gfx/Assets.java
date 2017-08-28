@@ -7,6 +7,7 @@ public class Assets
 	
 	private static final int WIDTH = 16, HEIGHT = 16;
 	
+	//IMAGES
 	public static BufferedImage playerHead, playerBody, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, snow, snow2,
 								dirt, dirt2, dirt3,																		         stonepath1, stonepath2,
 								water, water2, waterRock,																		 stonepath3, stonepath4,
@@ -26,10 +27,17 @@ public class Assets
 								selector,
 								
 								treeFull, stumpFull, bushFull, rockFull, strucFull, tallgrassFull, signFull;
+	//SPRITESHEETS
 	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet.png"));
 
 	public static void init()
 	{
+		//SOUNDS
+		//MUSIC
+
+		
+		//SFX
+
 		//SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"));
 		
 		playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
@@ -194,32 +202,4 @@ public class Assets
 	    tallgrassFull = sheet.crop(WIDTH*6, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	    signFull = sheet.crop(WIDTH*8, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	}
-	
-	public static void updatePlayerImage(int dir)
-	{
-		if(dir == 8)//up
-		{
-			playerHead = sheet.crop(0, HEIGHT*28, WIDTH*2, HEIGHT*2);
-			playerBody = sheet.crop(0, HEIGHT*30, WIDTH*2, HEIGHT*2);
-		}
-		else
-		if(dir == 2)//down
-		{
-			playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
-			playerBody = sheet.crop(WIDTH*2, HEIGHT*30, WIDTH*2, HEIGHT*2);
-		}
-		else
-		if(dir == 4)//left
-		{
-			playerHead = sheet.crop(WIDTH*4, HEIGHT*28, WIDTH*2, HEIGHT*2);
-			playerBody = sheet.crop(WIDTH*4, HEIGHT*30, WIDTH*2, HEIGHT*2);
-		}
-		else
-		if(dir == 6)//right
-		{
-			playerHead = sheet.crop(WIDTH*6, HEIGHT*28, WIDTH*2, HEIGHT*2);
-			playerBody = sheet.crop(WIDTH*6, HEIGHT*30, WIDTH*2, HEIGHT*2);
-		}
-	}
-	
 }

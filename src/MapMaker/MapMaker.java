@@ -7,6 +7,7 @@ import java.io.IOException;
 import display.Display;
 import gfx.Assets;
 import gfx.MapMakerCamera;
+import gfx.Sound;
 import input.KeyManager;
 import input.Selector;
 import main.Handler;
@@ -76,6 +77,12 @@ public class MapMaker implements Runnable
 		display.getCanvas().addMouseWheelListener(keyManager);
 
 		Assets.init();
+		Sound.init();
+		
+		Sound.playMusic("ToT.wav");
+
+		Sound.setMusicVolume(-20.0f);
+		Sound.setSfxVolume(-30.0f);
 		
 		this.handler = new Handler(this);
 		this.selector = new Selector(handler, 0, 0);
