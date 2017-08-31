@@ -79,7 +79,7 @@ public class MapMaker implements Runnable
 		Assets.init();
 		Sound.init();
 		
-		Sound.playMusic("ToT.wav");
+		Sound.playMusic(Sound.songs[0]);
 
 		Sound.setMusicVolume(-20.0f);
 		Sound.setSfxVolume(-30.0f);

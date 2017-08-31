@@ -24,25 +24,19 @@ public class Assets
 									   tree63, tree64, tree65, tree66, tree67, tree68,
 									   		   tree69, tree70, tree71, tree72,
 									   		   
-								selector,
+								selector, muteSound, nextSong,
 								
 								treeFull, stumpFull, bushFull, rockFull, strucFull, tallgrassFull, signFull;
 	//SPRITESHEETS
 	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet.png"));
 
 	public static void init()
-	{
-		//SOUNDS
-		//MUSIC
-
-		
-		//SFX
-
-		//SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"));
-		
+	{		
 		playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
 		playerBody = sheet.crop(WIDTH*2, HEIGHT*30, WIDTH*2, HEIGHT*2);
 		selector = sheet.crop(0, HEIGHT*27, WIDTH, HEIGHT);
+		muteSound = sheet.crop(WIDTH, HEIGHT*27, WIDTH, HEIGHT);
+		nextSong = sheet.crop(WIDTH*2, HEIGHT*27, WIDTH, HEIGHT);
 		
 		grass = sheet.crop(0, 0, WIDTH, HEIGHT);
 		grass2 = sheet.crop(WIDTH, 0, WIDTH, HEIGHT);

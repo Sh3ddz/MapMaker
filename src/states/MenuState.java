@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.io.IOException;
 
+import gfx.Assets;
 import gfx.Sound;
 import input.Selector;
 import main.Handler;
@@ -14,6 +15,7 @@ public class MenuState extends State
 {
 	private Selector selector;
 	private World world;
+	private boolean inMainMenu;
 	private boolean inControlsMenu;
 	private boolean inOptionsMenu;
 	private static Font headerFont = new Font("Arial", Font.BOLD, 30);
@@ -21,12 +23,19 @@ public class MenuState extends State
 	private static Color DARKRED = new Color(204,0,0);
 	private static Color DARKGREEN = new Color(0,204,0);
 
+	//scrolling song title
+	private int currentSongX;
+	private int counter;
+	
 	public MenuState(Handler handler)
 	{
 		super(handler);
 		//getting the original world
 		this.world = handler.getWorld();
 		this.selector = new Selector(handler, world.getSpawnX(), world.getSpawnY());
+		this.inMainMenu = true;
+		this.currentSongX = 0;
+		this.counter = 0;
 	}
 
 	@Override
@@ -39,7 +48,7 @@ public class MenuState extends State
 	@Override
 	public void render(Graphics g)
 	{
-		if(!inControlsMenu && !inOptionsMenu)
+		if(inMainMenu)
 			mainMenu(g);
 	    
 	    if(inControlsMenu)
@@ -53,88 +62,49 @@ public class MenuState extends State
 	{
 		//CHECKING MOUSE CLICK AREAS
 		//if its not in controls or options menu.
-		if(!inControlsMenu && !inOptionsMenu)
+		if(inMainMenu)
 		{
 			//CONTROLS BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
+			if((handler.getKeyManager().cX >= 10 && handler.getKeyManager().cX <= 210) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
 			{
-				if((handler.getKeyManager().cX >= 10 && handler.getKeyManager().cX <= 210) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
-				{
-					System.out.println("Controls button clicked, going into controls menu");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-					inControlsMenu = true;
-				}
+				System.out.println("Controls button clicked, going into controls menu");
+				inMainMenu = false;
+				inControlsMenu = true;
 			}
-			
 			//OPTIONS BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
+			if((handler.getKeyManager().cX >= 430 && handler.getKeyManager().cX <= 630) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
 			{
-				if((handler.getKeyManager().cX >= 430 && handler.getKeyManager().cX <= 630) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
-				{
-					System.out.println("Options button clicked, going into options menu");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-					inOptionsMenu = true;
-				}
+				System.out.println("Options button clicked, going into options menu");
+				inMainMenu = false;
+				inOptionsMenu = true;
 			}
-			
 			//NEW WORLD BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
+			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 70 && handler.getKeyManager().cY <= 120))
 			{
-				if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 70 && handler.getKeyManager().cY <= 120))
-				{
-					System.out.println("New World button clicker, creating a new world.");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-				}
+				System.out.println("New World button clicker, creating a new world.");
 			}
-		
 			//LOAD WORLD BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
+			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 145 && handler.getKeyManager().cY <= 195))
 			{
-				if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 145 && handler.getKeyManager().cY <= 195))
-				{
-					System.out.println("Load World clicked, loading a world.");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-				}
+				System.out.println("Load World clicked, loading a world.");
 			}
-		
 			//SAVE WORLD BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
+			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
 			{
-				if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
-				{
-					handler.getWorld().saveWorld();
-					System.out.println("Save World clicked, saving the world.");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-				}
+				handler.getWorld().saveWorld();
+				System.out.println("Save World clicked, saving the world.");
 			}
-		
 			//EXIT BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
-			{
-				if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
-				{	
-					System.out.println("EXITING.");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-					System.exit(1);
-				}
+			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))
+			{	
+				System.out.println("EXITING.");
+				System.exit(1);
 			}
-			
 			//BACK BUTTON
-			if(State.getState() == handler.getMapMaker().menuState)
-			{
-			    if((handler.getKeyManager().cX >= 475 && handler.getKeyManager().cX <= 625) && (handler.getKeyManager().cY >= 20 && handler.getKeyManager().cY <= 70))
-				{	
-					System.out.println("Going back to Map Maker");
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
-					State.setState(handler.getMapMaker().mapMakerState);
-				}
+			if((handler.getKeyManager().cX >= 475 && handler.getKeyManager().cX <= 625) && (handler.getKeyManager().cY >= 20 && handler.getKeyManager().cY <= 70))
+			{	
+				System.out.println("Going back to Map Maker");
+				State.setState(handler.getMapMaker().mapMakerState);
 			}
 		}
 		//if its in a different menu area
@@ -149,9 +119,8 @@ public class MenuState extends State
 					if((handler.getKeyManager().cX >= 475 && handler.getKeyManager().cX <= 625) && (handler.getKeyManager().cY >= 20 && handler.getKeyManager().cY <= 70))
 					{	
 						System.out.println("Going back to the Main Menu");
-						handler.getKeyManager().cX = -1;
-						handler.getKeyManager().cY = -1;
 						this.inControlsMenu = false;
+						this.inMainMenu = true;
 					}
 				}
 			}
@@ -164,55 +133,60 @@ public class MenuState extends State
 					if((handler.getKeyManager().cX >= 475 && handler.getKeyManager().cX <= 625) && (handler.getKeyManager().cY >= 20 && handler.getKeyManager().cY <= 70))
 					{	
 						System.out.println("Going back to the Main Menu");
-						handler.getKeyManager().cX = -1;
-						handler.getKeyManager().cY = -1;
 						this.inOptionsMenu = false;
+						this.inMainMenu = true;
 					}
 				}
-				
-			    //110,100,50,50
-			    //380,100,50,50
-			    //110,200,50,50
-			    //380,200,50,50
 				//SLIDERS
 				//MUSIC
+				//MUTE
+				if((handler.getKeyManager().cX >=50 && handler.getKeyManager().cX <= 100) && (handler.getKeyManager().cY >= 100 && handler.getKeyManager().cY <= 150))
+				{	
+					System.out.println("Muting Music.");
+					Sound.muteMusic();
+				}
 				//LOWER
 				if((handler.getKeyManager().cX >= 110 && handler.getKeyManager().cX <= 160) && (handler.getKeyManager().cY >= 100 && handler.getKeyManager().cY <= 150))
 				{	
 					System.out.println("Lowering Music Volume.");
 					Sound.setMusicVolume(Sound.musicVolumeChange-1.0f);
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
 				}
 				//RAISE
 				if((handler.getKeyManager().cX >= 380 && handler.getKeyManager().cX <= 430) && (handler.getKeyManager().cY >= 100 && handler.getKeyManager().cY <= 150))
 				{	
 					System.out.println("Raising Music Volume.");
 					Sound.setMusicVolume(Sound.musicVolumeChange+1.0f);
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
+				}
+				//NEXT SONG
+				if((handler.getKeyManager().cX >= 440 && handler.getKeyManager().cX <= 490) && (handler.getKeyManager().cY >= 100 && handler.getKeyManager().cY <= 150))
+				{
+					System.out.println("Changing song to next song.");
+					Sound.playNextSong();
 				}
 				//SFX
+				//MUTE
+				if((handler.getKeyManager().cX >=50 && handler.getKeyManager().cX <= 100) && (handler.getKeyManager().cY >= 200 && handler.getKeyManager().cY <= 250))
+				{	
+					System.out.println("Muting SFX.");
+					Sound.muteSfx();
+				}
 				//LOWER
 				if((handler.getKeyManager().cX >= 110 && handler.getKeyManager().cX <= 160) && (handler.getKeyManager().cY >= 200 && handler.getKeyManager().cY <= 250))
 				{	
 					System.out.println("Lowering SFX Volume.");
 					Sound.setSfxVolume(Sound.sfxVolumeChange-1.0f);
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
 				}
 				//RAISE
 				if((handler.getKeyManager().cX >= 380 && handler.getKeyManager().cX <= 430) && (handler.getKeyManager().cY >= 200 && handler.getKeyManager().cY <= 250))
 				{	
 					System.out.println("Raising SFX Volume.");
 					Sound.setSfxVolume(Sound.sfxVolumeChange+1.0f);
-					handler.getKeyManager().cX = -1;
-					handler.getKeyManager().cY = -1;
 				}
 				
 			}
 		}
-		
+		handler.getKeyManager().cX = -1;
+		handler.getKeyManager().cY = -1;
 	}
 	
 	public void mainMenu(Graphics g)
@@ -338,11 +312,6 @@ public class MenuState extends State
 		//Drawing background
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1920, 1080);
-		
-		//CONTROLS text
-		g.setColor(Color.RED);
-	    g.setFont(headerFont);
-	    g.drawString("OPTIONS", 255, 40);
 	    
 	    //Showing the options
 	    
@@ -351,6 +320,25 @@ public class MenuState extends State
 	    g.setFont(menuFont);
 	    g.setColor(Color.WHITE);
 	    g.drawString("Music Volume",210, 85);
+	    
+	    if(!Sound.musicMuted)
+	    {
+	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+	    		g.setColor(DARKRED);
+	    	else
+	    		g.setColor(Color.RED);
+	    }
+	    else
+	    {
+	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+	    		g.setColor(DARKGREEN);
+	    	else
+	    		g.setColor(Color.GREEN);
+	    }
+	    g.fillRect(50, 100, 50, 50);
+	    g.setColor(Color.BLACK);
+	    g.drawImage(Assets.muteSound, 50, 100, 50, 50, null);
+	    
 		if((handler.getKeyManager().mX >= 110 && handler.getKeyManager().mX <= 160) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
 			g.setColor(DARKRED);
 		else
@@ -358,13 +346,36 @@ public class MenuState extends State
 	    g.fillRect(110, 100, 50, 50);
 	    g.setColor(Color.WHITE);
 	    g.fillRect(170, 100, (int)Sound.musicVolume*4, 50);
+	    
+	    //scrolling song name
+	    g.drawString("Current song playing:", 0, 20);
+	    g.drawString(Sound.currentSongName+"", currentSongX, 42);
+	    int disappearX = -(Sound.currentSongName.length()*10);
+	    int reappearX = 250 ;
+	    counter++;
+	    if(counter%50 == 0)
+	    {
+	    	currentSongX--;
+	    }
+	    if(currentSongX < disappearX)
+	    	currentSongX = reappearX;
+	    g.setColor(Color.BLACK);
+	    g.fillRect(250,0,400,60);
+	    /////////////////////////
+	    
 		if((handler.getKeyManager().mX >= 380 && handler.getKeyManager().mX <= 430) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
 			g.setColor(DARKGREEN);
 		else
 			g.setColor(Color.GREEN);
 	    g.fillRect(380, 100, 50, 50);
+		if((handler.getKeyManager().mX >= 440 && handler.getKeyManager().mX <= 490) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+			g.setColor(DARKGREEN);
+		else
+			g.setColor(Color.GREEN);
+	    g.fillRect(440, 100, 50, 50);
 	    g.setColor(Color.BLACK);
 	    g.setFont(headerFont);
+	    g.drawImage(Assets.nextSong, 442, 102, 46, 46, null);
 	    g.drawString("-", 130, 135);
 	    g.drawString("+", 395, 135);
 
@@ -372,6 +383,25 @@ public class MenuState extends State
 	    g.setFont(menuFont);
 	    g.setColor(Color.WHITE);
 	    g.drawString("SFX Volume",215, 185);
+	    
+	    if(!Sound.sfxMuted)
+	    {
+			if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 200 && handler.getKeyManager().mY <= 250))
+				g.setColor(DARKRED);
+			else
+				g.setColor(Color.RED);
+	    }
+	    else
+	    {
+	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 200 && handler.getKeyManager().mY <= 250))
+	    		g.setColor(DARKGREEN);
+	    	else
+	    		g.setColor(Color.GREEN);
+	    }
+	    g.fillRect(50, 200, 50, 50);
+	    g.setColor(Color.BLACK);
+	    g.drawImage(Assets.muteSound, 50, 200, 50, 50, null);
+	    
 		if((handler.getKeyManager().mX >= 110 && handler.getKeyManager().mX <= 160) && (handler.getKeyManager().mY >= 200 && handler.getKeyManager().mY <= 250))
 			g.setColor(DARKRED);
 		else
@@ -399,6 +429,10 @@ public class MenuState extends State
 	    g.setFont(menuFont);
 	    g.setColor(Color.BLACK);  
 	    g.drawString("<-Back", 495, 50);
+	    
+		g.setColor(Color.RED);
+	    g.setFont(headerFont);
+	    g.drawString("OPTIONS", 255, 40);
 	}
 	
 }
