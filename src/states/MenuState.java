@@ -87,12 +87,14 @@ public class MenuState extends State
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 145 && handler.getKeyManager().cY <= 195))
 			{
 				System.out.println("Load World clicked, loading a world.");
+				handler.getWorld().loadNewWorld();
+				State.setState(handler.getMapMaker().mapMakerState);
 			}
 			//SAVE WORLD BUTTON
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
 			{
-				handler.getWorld().saveWorld();
 				System.out.println("Save World clicked, saving the world.");
+				handler.getWorld().saveWorld();
 			}
 			//EXIT BUTTON
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 295 && handler.getKeyManager().cY <= 345))

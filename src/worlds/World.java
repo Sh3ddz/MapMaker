@@ -2,10 +2,13 @@ package worlds;
 
 import java.awt.Graphics;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+
+import javax.swing.JFileChooser;
 
 import main.Handler;
 import tiles.Tile;
@@ -96,7 +99,19 @@ public class World
 	public void saveWorld() throws IOException
 	{
 		String fileName = "";
-		//string error checking
+		
+		//creating the filechooser and setting current directory.
+		JFileChooser fileChooser = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/worlds");
+		fileChooser.setCurrentDirectory(workingDirectory);
+		
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+			File file = fileChooser.getSelectedFile();
+			fileName = file.getName();
+		}
+		
+		//file name error checking
 		if(fileName == "" || fileName == null)
 		{
 			fileName = "NewSaveWorld.txt";
@@ -105,9 +120,8 @@ public class World
 		{
 			fileName = fileName+".txt";
 		}
-		
 		//writing to the file
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("res/worlds/"+fileName), "utf-8"))) 
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("src/resources/worlds/"+fileName), "utf-8"))) 
 		{
 			writer.write(""+this.width+" "+this.height);
 			((BufferedWriter) writer).newLine();
@@ -138,8 +152,27 @@ public class World
 				}
 				((BufferedWriter) writer).newLine();
 			}
+			writer.flush();
+			writer.close();
 		}
-		System.out.println("World Saved! path: res/worlds/"+fileName);
+		System.out.println("World Saved! path: src/resources/worlds/"+fileName);
+	}
+	
+	public void loadNewWorld()
+	{
+		//creating the filechooser and setting current directory.
+		JFileChooser fileChooser = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/worlds");
+		fileChooser.setCurrentDirectory(workingDirectory);
+		
+		//getting the path of the new world file and then loading it.
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+		 	File file = fileChooser.getSelectedFile();
+		 	String path = "src/resources/worlds/"+file.getName();
+			loadWorld(path);
+			System.out.println("Loaded "+path);
+		}
 	}
 	
 	private void generateLargerTiles(int x, int y)
