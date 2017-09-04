@@ -1,6 +1,8 @@
 # MapMaker
 2d Game map editor.
 
+**DISCLAIMER: -The assets used for the tiles are the same as the ones used in the game "Graal Online Classic"  
+	      -The music used are also taken from different sources, I do not own any of the music used in this program.**
 **This is a work in progress and no where near complete. I will update periodically**
 
 **TO DO:**
