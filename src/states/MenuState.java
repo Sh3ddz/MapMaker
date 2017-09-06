@@ -81,7 +81,8 @@ public class MenuState extends State
 			//NEW WORLD BUTTON
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 70 && handler.getKeyManager().cY <= 120))
 			{
-				System.out.println("New World button clicker, creating a new world.");
+				System.out.println("New World button clicked, creating a new world.");
+				handler.getWorld().newWorld();
 			}
 			//LOAD WORLD BUTTON
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 145 && handler.getKeyManager().cY <= 195))
@@ -326,14 +327,22 @@ public class MenuState extends State
 	    if(!Sound.musicMuted)
 	    {
 	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+	    	{
+				g.setColor(Color.YELLOW);
+				g.drawString("Mute Music", 50, 90);
 	    		g.setColor(DARKRED);
+	    	}
 	    	else
 	    		g.setColor(Color.RED);
 	    }
 	    else
 	    {
 	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+	    	{
+				g.setColor(Color.YELLOW);
+				g.drawString("Unmute Music", 50, 90);
 	    		g.setColor(DARKGREEN);
+	    	}	    	
 	    	else
 	    		g.setColor(Color.GREEN);
 	    }
@@ -371,7 +380,11 @@ public class MenuState extends State
 			g.setColor(Color.GREEN);
 	    g.fillRect(380, 100, 50, 50);
 		if((handler.getKeyManager().mX >= 440 && handler.getKeyManager().mX <= 490) && (handler.getKeyManager().mY >= 100 && handler.getKeyManager().mY <= 150))
+		{
+			g.setColor(Color.YELLOW);
+			g.drawString("Next Song", 440, 90);
 			g.setColor(DARKGREEN);
+		}
 		else
 			g.setColor(Color.GREEN);
 	    g.fillRect(440, 100, 50, 50);
@@ -389,14 +402,22 @@ public class MenuState extends State
 	    if(!Sound.sfxMuted)
 	    {
 			if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 200 && handler.getKeyManager().mY <= 250))
+			{	
+				g.setColor(Color.YELLOW);
+				g.drawString("Mute SFX", 50, 190);
 				g.setColor(DARKRED);
+			}
 			else
 				g.setColor(Color.RED);
 	    }
 	    else
 	    {
 	    	if((handler.getKeyManager().mX >= 50 && handler.getKeyManager().mX <= 100) && (handler.getKeyManager().mY >= 200 && handler.getKeyManager().mY <= 250))
+	    	{
+				g.setColor(Color.YELLOW);
+				g.drawString("Unmute SFX", 50, 190);
 	    		g.setColor(DARKGREEN);
+	    	}
 	    	else
 	    		g.setColor(Color.GREEN);
 	    }

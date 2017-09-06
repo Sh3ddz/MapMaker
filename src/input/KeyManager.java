@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 public class KeyManager implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
 	private boolean[] keys;
-	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, stateSwap, zoomIn, zoomOut, zoomReset, escape, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging;
+	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, openTileSelection, zoomIn, zoomOut, zoomReset, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging;
 	public int mX,mY,cX,cY;
 	
 	public KeyManager()
@@ -43,7 +43,7 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		keys[e.getKeyCode()] = true;
 		holding = true;
 		if(e.getKeyCode() == KeyEvent.VK_E)
-			stateSwap = true;
+			openTileSelection = true;
 		if(e.getKeyCode() == KeyEvent.VK_EQUALS)
 			zoomIn = true;
 		if(e.getKeyCode() == KeyEvent.VK_MINUS)
@@ -51,7 +51,7 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		if(e.getKeyCode() == KeyEvent.VK_0)
 			zoomReset = true;
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			escape = true;
+			openMenu = true;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		keys[e.getKeyCode()] = false;
 		holding = false;
 		if(e.getKeyCode() == KeyEvent.VK_E)
-			stateSwap = false;
+			openTileSelection = false;
 		if(e.getKeyCode() == KeyEvent.VK_EQUALS)
 			zoomIn = false;
 		if(e.getKeyCode() == KeyEvent.VK_MINUS)
@@ -68,7 +68,7 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		if(e.getKeyCode() == KeyEvent.VK_0)
 			zoomReset = false;
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			escape = false;
+			openMenu = false;
 	}
 
 	@Override

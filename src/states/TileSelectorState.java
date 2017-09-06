@@ -2,29 +2,25 @@ package states;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.IOException;
 
 import gfx.Assets;
 import input.Selector;
 import main.Handler;
 import tiles.Tile;
-import worlds.World;
 
 public class TileSelectorState extends State
 {
 	private Selector selector;
-	private World world;
-
+	
 	public TileSelectorState(Handler handler)
 	{
 		super(handler);
-		//getting the original world
-		this.world = handler.getWorld();
+		handler.getWorld();
 		this.selector = handler.getSelector();
 	}
 
 	@Override
-	public void tick() throws IOException
+	public void tick()
 	{
 		selector.tick();
 		selectTile();
@@ -150,6 +146,7 @@ public class TileSelectorState extends State
 					handler.getSelector().setNewTileId(i);
 					handler.getKeyManager().cX = -1;
 					handler.getKeyManager().cY = -1;
+					handler.getMapMakerCamera().setZoomLevel(handler.getSelector().oldZoom);//keeping the old zoom after selecting a tile.
 					State.setState(handler.getMapMaker().mapMakerState);
 				}
 			}

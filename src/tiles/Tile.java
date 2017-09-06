@@ -203,4 +203,9 @@ public class Tile
 	{
 		this.id = id;
 	}
+	
+	public BufferedImage getTexture()
+	{
+		return this.texture;
+	}
 }

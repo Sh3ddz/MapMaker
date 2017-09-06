@@ -49,6 +49,34 @@ public class MapMakerCamera
 		this.yOffset = yOffset;
 	}
 	
+	public int getZoomLevel()
+	{
+		return this.zoomLevel;
+	}
+	
+	public void setZoomLevel(int z)
+	{
+		if(z < 1)
+			z = 1;
+		if(z > 5)
+			z = 5;
+		if(zoomLevel < z)
+		{
+			for(int i = 0; i <= z - zoomLevel; i++)
+			{
+				zoomIn();
+			}
+		}
+		else
+			if(zoomLevel > z)
+			{
+				for(int i = 0; i <= zoomLevel - z; i++)
+				{
+					zoomOut();
+				}
+			}
+	}
+	
 	//zooms towards the center of the screen
 	public void zoomIn()
 	{
@@ -81,6 +109,11 @@ public class MapMakerCamera
 	}
 	
 	public void zoomReset()
+	{
+		setZoomLevel(3);
+	}
+	
+	public void cameraReset()
 	{
 		this.xOffset = 0;
 		this.yOffset = 0;

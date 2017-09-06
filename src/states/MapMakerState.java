@@ -1,7 +1,6 @@
 package states;
 
 import java.awt.Graphics;
-import java.io.IOException;
 
 import input.Selector;
 import main.Handler;
@@ -15,13 +14,13 @@ public class MapMakerState extends State
 	public MapMakerState(Handler handler)
 	{
 		super(handler);
-		this.world = new World(handler, "src/resources/worlds/NewSaveWorld.txt");
+		this.world = new World(handler, "src/resources/worlds/TestWorld.txt");
 		handler.setWorld(world);
 		this.selector = handler.getSelector();
 	}
 	
 	@Override
-	public void tick() throws IOException
+	public void tick()
 	{
 		world.tick();
 		selector.tick();

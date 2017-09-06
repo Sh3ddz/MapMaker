@@ -1,7 +1,7 @@
 package input;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.io.IOException;
 
 import gfx.Assets;
 import gfx.Sound;
@@ -14,8 +14,9 @@ public class Selector
 	private Handler handler;
 	private float x, y;
 	private int tileX, tileY;
-	public static int width, height;
 	private int newTileId;
+	public static int width, height;
+	public int oldZoom;
 	
 	public Selector(Handler handler, float x, float y)
 	{
@@ -79,13 +80,13 @@ public class Selector
 		
 	}
 	
-	public Tile getTileOnLocation()
+	private Tile getTileOnLocation()
 	{
 		return handler.getWorld().getTile(tileX, tileY);
 	}
 	
 	//changing the tile on a specific location to a new tile.
-	public void updateTileOnLocation(int x, int y, int tileId)
+	private void updateTileOnLocation(int x, int y, int tileId)
 	{
 		handler.getWorld().setTile(x, y, tileId);
 	}
@@ -155,35 +156,35 @@ public class Selector
 		}
 	
 		//swapping between tileselection state, mapmaker state, and menu state
-		if(handler.getKeyManager().stateSwap || handler.getKeyManager().escape)
+		if(handler.getKeyManager().openTileSelection || handler.getKeyManager().openMenu)
 		{
 			stateSwap(State.getState());
-			handler.getKeyManager().stateSwap = false;
-			handler.getKeyManager().escape = false;
+			handler.getKeyManager().openTileSelection = false;
+			handler.getKeyManager().openMenu = false;
 		}
 	}
 	
-	public void toggleInput(boolean pressing)
+	private void stateSwap(State currentState)
 	{
-		
-	}
-	
-	public void stateSwap(State currentState)
-	{
-		if(handler.getKeyManager().stateSwap)
+		if(handler.getKeyManager().openTileSelection)//swapping between tileselection and mapmaker states
 		{
 			if(currentState == handler.getMapMaker().mapMakerState)
 			{
 				handler.getKeyManager().cX = -1;
 				handler.getKeyManager().cY = -1;
+				//resetting zoom and getting old zoom level
+				oldZoom = handler.getMapMakerCamera().getZoomLevel();
+				handler.getMapMakerCamera().zoomReset();
+				
 				State.setState(handler.getMapMaker().tileSelectorState);
 			}
 			if(currentState == handler.getMapMaker().tileSelectorState)
 			{
+				handler.getMapMakerCamera().setZoomLevel(oldZoom);//keeping the old zoom after exiting tile selection state
 				State.setState(handler.getMapMaker().mapMakerState);
-			}		
+			}	
 		}
-		if(handler.getKeyManager().escape)
+		if(handler.getKeyManager().openMenu)//Swapping between mainmenu /mapmaker / tileselection states
 		{
 			if(currentState == handler.getMapMaker().mapMakerState)
 			{
@@ -202,7 +203,7 @@ public class Selector
 		}
 	}
 	
-	public void tick() throws IOException
+	public void tick()
 	{
 		getInput();
 		updatePosition();
@@ -211,5 +212,18 @@ public class Selector
 	public void render(Graphics g)
 	{
 		g.drawImage(Assets.selector, (int) x, (int) y, width, height, null);
+		if(State.getState() == handler.getMapMaker().mapMakerState)
+		{
+			g.setColor(Color.GRAY);
+			g.fillRect(0, 0, 48, 48);
+			g.drawImage(Tile.tiles[newTileId].getTexture(), 8, 8, 32, 32, null);
+		}
+		else
+			if(State.getState() == handler.getMapMaker().tileSelectorState)
+			{
+				g.setColor(Color.BLACK);
+				g.fillRect(0, 0, 32, 32);
+				g.drawImage(Tile.tiles[newTileId].getTexture(), 8, 8, 16, 16, null);
+			}
 	}
 }

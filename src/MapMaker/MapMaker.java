@@ -88,11 +88,12 @@ public class MapMaker implements Runnable
 		this.selector = new Selector(handler, 0, 0);
 		this.handler.setSelector(selector);
 		
+		this.mapMakerCamera = new MapMakerCamera(this, handler.getWorld(), handler);
+
 		this.mapMakerState = new MapMakerState(handler);
 		this.menuState = new MenuState(handler);
 		this.tileSelectorState = new TileSelectorState(handler);
 		State.setState(mapMakerState);
-		this.mapMakerCamera = new MapMakerCamera(this, handler.getWorld(), handler);
 	}
 	
 	private void tick() throws IOException
@@ -117,7 +118,6 @@ public class MapMaker implements Runnable
 		
 		if(State.getState() != null)
 			State.getState().render(g);
-		
 		//End Drawing!
 		bs.show();
 		g.dispose();
@@ -180,6 +180,11 @@ public class MapMaker implements Runnable
 		
 		stop();
 		
+	}
+	
+	public Display getDisplay()
+	{
+		return this.display;
 	}
 	
 	public KeyManager getKeyManager()

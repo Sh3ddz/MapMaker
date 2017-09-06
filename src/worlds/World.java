@@ -9,8 +9,10 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import main.Handler;
+import states.State;
 import tiles.Tile;
 import util.Utils;
 
@@ -25,27 +27,6 @@ public class World
 	{
 		this.handler = handler;
 		loadWorld(path);
-	}
-	
-	public void tick()
-	{
-
-	}
-	
-	public void render(Graphics g)
-	{
-		int xStart = (int) Math.max(0, handler.getMapMakerCamera().getxOffset() / Tile.TILEWIDTH);
-		int xEnd = (int) Math.min(width, (handler.getMapMakerCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH +1);
-		int yStart = (int) Math.max(0, handler.getMapMakerCamera().getyOffset() / Tile.TILEHEIGHT);
-		int yEnd = (int) Math.min(height, (handler.getMapMakerCamera().getyOffset() + handler.getHeight()) / Tile.TILEHEIGHT +1);
-		
-		for(int y = yStart; y < yEnd; y++)
-		{
-			for(int x = xStart; x < xEnd; x++)
-			{
-				getTile(x, y).render(g, (int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset()));
-			}
-		}
 	}
 	
 	public Tile getTile(int x, int y)
@@ -71,6 +52,21 @@ public class World
 		{
 			generateLargerTiles(x,y);
 		}
+	}
+	
+	public int getSpawnX()
+	{
+		return spawnX;
+	}
+	
+	public int getSpawnY()
+	{
+		return spawnY;
+	}
+	
+	public int[][] getTiles()
+	{
+		return this.tiles;
 	}
 	
 	private void loadWorld(String path)
@@ -112,9 +108,9 @@ public class World
 		}
 		
 		//file name error checking
-		if(fileName == "" || fileName == null)
+		if(fileName == "" || fileName == null)//if they dont type anything it doesnt save.
 		{
-			fileName = "NewSaveWorld.txt";
+			return;
 		}
 		if(!fileName.substring(fileName.length()-4).equals(".txt"))
 		{
@@ -172,6 +168,122 @@ public class World
 		 	String path = "src/resources/worlds/"+file.getName();
 			loadWorld(path);
 			System.out.println("Loaded "+path);
+		}
+	}
+	
+	public void newWorld()
+	{
+		//JOptionPane.showMessageDialog(handler.getMapMaker().getDisplay().getFrame(), "World size?");
+		String tempOPString = JOptionPane.showInputDialog("New World Width");
+		int newWorldWidth = 0;
+		if(tempOPString != null)
+			newWorldWidth = Integer.parseInt(tempOPString);
+		
+		tempOPString = JOptionPane.showInputDialog("New World Height");
+		int newWorldHeight = 0;
+		if(tempOPString != null)
+			newWorldHeight = Integer.parseInt(tempOPString);
+		
+		tempOPString = JOptionPane.showInputDialog("1.)Random 2.)All Grass 3.)Ocean 4.) Forest");
+		int generationOption = 0;
+		if(tempOPString != null)
+			generationOption = Integer.parseInt(tempOPString);
+		
+		if(newWorldWidth != 0 && newWorldHeight != 0 && generationOption != 0)
+			createNewWorld(newWorldWidth, newWorldHeight, generationOption);
+	}
+	
+	public void createNewWorld(int width, int height, int generationOption)
+	{
+		this.width = width;
+		this.height = height;
+		tiles = new int[width][height];
+		System.out.println(tiles.length+","+tiles[0].length);
+		generateWorld(generationOption);
+		State.setState(handler.getMapMaker().mapMakerState);
+	}
+	
+	public void generateWorld(int generationOption)
+	{
+		switch(generationOption)
+		{
+		case 1: //Completely random
+		{
+			for(int y = 0; y < height; y++)
+			{
+				for(int x = 0; x < width; x++)
+				{
+					tiles[x][y] = (int)(Math.random() * 128) + 1;
+				}
+			}
+			break;
+		}
+		case 2: //All Grass
+		{
+			for(int y = 0; y < height; y++)
+			{
+				for(int x = 0; x < width; x++)
+				{
+					tiles[x][y] = 0;
+				}
+			}
+			break;
+		}
+		case 3: //Ocean
+		{
+			for(int y = 0; y < height; y++)
+			{
+				for(int x = 0; x < width; x++)
+				{
+					int rand = (int)(Math.random() * 400) + 1;
+					if(rand<=388)
+						tiles[x][y] = 12;
+					if(rand>388 && rand<=398)
+						tiles[x][y] = 13;
+					if(rand>398)
+						tiles[x][y] = 14;
+				}
+			}
+			break;
+		}
+		case 4: //Forest
+		{
+			for(int y = 0; y < height; y++)
+			{
+				for(int x = 0; x < width; x++)
+				{
+					int rand = (int)(Math.random() * 1000) + 1;
+					if(rand<=900)
+						tiles[x][y] = 0;
+					if(rand>900 && rand <=910)
+						tiles[x][y] = 1;
+					if(rand>910&& rand <=920)
+						tiles[x][y] = 2;
+					if(rand>920&& rand <=930)
+						tiles[x][y] = 3;
+					if(x>1)
+						if(tiles[x-1][y] == 3)
+							tiles[x][y] = 4;
+				}
+			}
+			for(int y = 0; y < height; y++)
+			{
+				for(int x = 0; x < width; x++)
+				{
+					int rand = (int)(Math.random() * 1000) + 1;
+					if((x>1 && y>1) && (x<width-7 && y<height-10))
+						//checking each corner of the tree to place to see if it overlaps any other tree.
+						if((rand>0 && rand <=5) && 
+						   (tiles[x-1][y]<51 || tiles[x-1][y]>122)  && 
+						   (tiles[x+7][y]<51 || tiles[x+7][y]>122) && 
+						   (tiles[x][y+10]<51 || tiles[x][y+10]>122) &&
+						   (tiles[x+7][y+10]<51 || tiles[x+7][y+10]>122))
+							tiles[x][y] = 51;
+					generateLargerTiles(x,y);
+				}
+			}
+			break;
+		}
 		}
 	}
 	
@@ -342,18 +454,25 @@ public class World
 			}
 		}
 	}
-	public int getSpawnX()
+	
+	public void tick()
 	{
-		return spawnX;
+
 	}
 	
-	public int getSpawnY()
+	public void render(Graphics g)
 	{
-		return spawnY;
-	}
-	
-	public int[][] getTiles()
-	{
-		return this.tiles;
+		int xStart = (int) Math.max(0, handler.getMapMakerCamera().getxOffset() / Tile.TILEWIDTH);
+		int xEnd = (int) Math.min(width, (handler.getMapMakerCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH +1);
+		int yStart = (int) Math.max(0, handler.getMapMakerCamera().getyOffset() / Tile.TILEHEIGHT);
+		int yEnd = (int) Math.min(height, (handler.getMapMakerCamera().getyOffset() + handler.getHeight()) / Tile.TILEHEIGHT +1);
+		
+		for(int y = yStart; y < yEnd; y++)
+		{
+			for(int x = xStart; x < xEnd; x++)
+			{
+				getTile(x, y).render(g, (int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset()));
+			}
+		}
 	}
 }
