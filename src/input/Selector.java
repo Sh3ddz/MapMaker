@@ -7,6 +7,7 @@ import gfx.Assets;
 import gfx.Sound;
 import main.Handler;
 import states.State;
+import states.TileSelectorState;
 import tiles.Tile;
 
 public class Selector 
@@ -152,6 +153,21 @@ public class Selector
 			if(handler.getKeyManager().middleClick)
 			{
 				 this.setNewTileId(getTileOnLocation().getId());
+			}
+		}
+		
+		//CONTROLS IN THE TILE SELECTION STATE
+		if((State.getState() == handler.getMapMaker().tileSelectorState))
+		{
+			if(handler.getKeyManager().mouseWheelDown)
+			{
+				TileSelectorState.setYOffset(TileSelectorState.getYOffset()-32);
+				handler.getKeyManager().mouseWheelDown = false;
+			}
+			if(handler.getKeyManager().mouseWheelUp)
+			{
+				TileSelectorState.setYOffset(TileSelectorState.getYOffset()+32);
+				handler.getKeyManager().mouseWheelUp = false;
 			}
 		}
 	

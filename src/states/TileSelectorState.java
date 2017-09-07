@@ -11,14 +11,35 @@ import tiles.Tile;
 public class TileSelectorState extends State
 {
 	private Selector selector;
+	private static int xOffset;
+	private static int yOffset;
 	
 	public TileSelectorState(Handler handler)
 	{
 		super(handler);
 		handler.getWorld();
 		this.selector = handler.getSelector();
+		xOffset = 0;
+		yOffset = 0;
 	}
-
+	public static void setXOffset(int x)
+	{
+		xOffset = x;
+	}
+	public static int getXOffset()
+	{
+		return xOffset;
+	}
+	
+	public static void setYOffset(int y)
+	{
+		yOffset = y;
+	}
+	public static int getYOffset()
+	{
+		return yOffset;
+	}
+	
 	@Override
 	public void tick()
 	{
@@ -53,7 +74,7 @@ public class TileSelectorState extends State
 				}
 				xRender += 32;
 	
-				Tile.tiles[i].render(g, xRender, yRender);
+				Tile.tiles[i].render(g, xRender+xOffset, yRender+yOffset);
 			}
 			renderLargerTiles(g, xRender, yRender, i);
 			selector.render(g);
@@ -68,7 +89,7 @@ public class TileSelectorState extends State
 			xRender = 160;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.bushFull, xRender, yRender, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
+			g.drawImage(Assets.bushFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 		if(i == 19)
@@ -76,7 +97,7 @@ public class TileSelectorState extends State
 			xRender = 208;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.rockFull, xRender, yRender, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
+			g.drawImage(Assets.rockFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 		if(i == 23)
@@ -84,7 +105,7 @@ public class TileSelectorState extends State
 			xRender = 256;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.strucFull, xRender, yRender, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
+			g.drawImage(Assets.strucFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 		if(i == 27)
@@ -92,7 +113,7 @@ public class TileSelectorState extends State
 			xRender = 304;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.tallgrassFull, xRender, yRender, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
+			g.drawImage(Assets.tallgrassFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 		if(i == 31)
@@ -100,7 +121,7 @@ public class TileSelectorState extends State
 			xRender = 352;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.signFull, xRender, yRender, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
+			g.drawImage(Assets.signFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 		if(i == 35)
@@ -108,7 +129,7 @@ public class TileSelectorState extends State
 			xRender = 400;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.stumpFull, xRender, yRender, Tile.TILEWIDTH*4, Tile.TILEHEIGHT*4, null);
+			g.drawImage(Assets.stumpFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*4, Tile.TILEHEIGHT*4, null);
 			yRender = tempYRender;
 		}
 		if(i == 51)
@@ -116,7 +137,15 @@ public class TileSelectorState extends State
 			xRender = 32;
 			int tempYRender = yRender;
 			yRender = 192;
-			g.drawImage(Assets.treeFull, xRender, yRender, Tile.TILEWIDTH*7, Tile.TILEHEIGHT*9, null);
+			g.drawImage(Assets.treeFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*7, Tile.TILEHEIGHT*9, null);
+			yRender = tempYRender;
+		}
+		if(i == 125)
+		{
+			xRender = 160;
+			int tempYRender = yRender;
+			yRender = 240;
+			g.drawImage(Assets.fenceFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
 	}
@@ -141,7 +170,7 @@ public class TileSelectorState extends State
 				}
 				xSelect += 32;
 				
-				if(((handler.getKeyManager().cX > xSelect) && (handler.getKeyManager().cX < xSelect + 32)) && ((handler.getKeyManager().cY > ySelect) && (handler.getKeyManager().cY < ySelect + 32)))
+				if(((handler.getKeyManager().cX > xSelect+xOffset) && (handler.getKeyManager().cX < xSelect + 32 + xOffset)) && ((handler.getKeyManager().cY > ySelect+yOffset) && (handler.getKeyManager().cY < ySelect + 32 + yOffset)))
 				{
 					handler.getSelector().setNewTileId(i);
 					handler.getKeyManager().cX = -1;
@@ -151,14 +180,14 @@ public class TileSelectorState extends State
 				}
 			}
 			//selecting larger tiles
-			if((i == 15) || (i == 19) || (i == 23) || (i == 27) || (i == 31) || (i == 35)  || (i == 51))
+			if((i == 15) || (i == 19) || (i == 23) || (i == 27) || (i == 31) || (i == 35)  || (i == 51) || (i == 125))
 				selectLargerTiles(xSelect, ySelect, i);
 		}
 	}
 	
 	public void selectLargerTiles(int xSelect, int ySelect, int i)
 	{
-		//15,19,23,27,31,35,51
+		//15,19,23,27,31,35,51,125
 		int addNum = 0;
 		if(i == 15)
 		{
@@ -202,10 +231,15 @@ public class TileSelectorState extends State
 			ySelect = 192;
 			addNum = 112;
 		}
-		
-		if(((handler.getKeyManager().cX > xSelect) && (handler.getKeyManager().cX < xSelect + addNum)) && ((handler.getKeyManager().cY > ySelect) && (handler.getKeyManager().cY < ySelect + addNum)))
+		if(i == 125)
 		{
-			System.out.println(xSelect+", "+ySelect);
+			xSelect = 160;
+			ySelect = 240;
+			addNum= 32;
+		}
+		
+		if(((handler.getKeyManager().cX > xSelect+xOffset) && (handler.getKeyManager().cX < xSelect + addNum + xOffset)) && ((handler.getKeyManager().cY > ySelect+yOffset) && (handler.getKeyManager().cY < ySelect + addNum + yOffset)))
+		{
 			handler.getSelector().setNewTileId(i);
 			handler.getKeyManager().cX = 0;
 			handler.getKeyManager().cY = 0;

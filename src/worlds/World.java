@@ -47,8 +47,8 @@ public class World
 		
 		tiles[x][y] = id;
 		
-		//checking to generate a larger tile.
-		if(id == 15 || id == 19 || id == 23 || id == 27 || id == 31 || id == 35 || id == 51)
+		//checking to generate a larger tile. (only need to check the ones which can generate larger tiles.)
+		if(id == 15 || id == 19 || id == 23 || id == 27 || id == 31 || id == 35 || id == 51 || id == 125)
 		{
 			generateLargerTiles(x,y);
 		}
@@ -451,6 +451,75 @@ public class World
 				tiles[x+2][y+9] = 120;
 				tiles[x+3][y+9] = 121;
 				tiles[x+4][y+9] = 122;
+			}
+		}
+		
+		//Connecting Fences (all directions)
+		if(tiles[x][y] == 125)
+		{
+			//just normal fence + fence bottom
+			if(y+1<tiles.length)
+			{
+				if(tiles[x][y+1] != 125)
+					tiles[x][y+1] = 126;
+			}
+			//connection on the left (if there's a tile on the left)
+			if((x>1) && (y+1<tiles.length))
+			{
+				if(tiles[x-2][y] == 125)
+				{
+					tiles[x-2][y] = 125;
+					tiles[x-2][y+1] = 126;
+					tiles[x-1][y] = 127;
+					tiles[x-1][y+1] = 128;
+					tiles[x][y+1] = 126;
+					//checking if there's also a connection below
+					if(y+2<tiles.length)
+					{
+						if(tiles[x-2][y+2] == 125)
+						{
+							tiles[x-2][y+1] = 129;
+						}
+					}
+				}
+			}
+			//connection on the right (if there's a tile on the right)
+			if((x+2<tiles[x].length) && (y+1<tiles.length))
+			{
+				if(tiles[x+2][y] == 125)
+				{
+					tiles[x+2][y] = 125;
+					tiles[x+2][y+1] = 126;
+					tiles[x+1][y] = 127;
+					tiles[x+1][y+1] = 128;
+					tiles[x][y+1] = 126;
+					//checking if there's also a connection below
+					if(y+2<tiles.length)
+					{
+						if(tiles[x+2][y+2] == 125)
+						{
+							tiles[x+2][y+1] = 129;
+						}
+					}
+				}
+			}
+			//connection down (if there's a tile below)
+			if(y+2<tiles.length)
+			{
+				if(tiles[x][y+2] == 125)
+				{
+					tiles[x][y+2] = 125;
+					tiles[x][y+1] = 129;
+				}
+			}
+			//connection up (if there's a tile above)
+			if(y>1)
+			{
+				if(tiles[x][y-2] == 125)
+				{
+					tiles[x][y-2] = 125;
+					tiles[x][y-1] = 129;
+				}
 			}
 		}
 	}

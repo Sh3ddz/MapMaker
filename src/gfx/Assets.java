@@ -26,7 +26,7 @@ public class Assets
 									   		   
 								selector, muteSound, nextSong,
 								
-								treeFull, stumpFull, bushFull, rockFull, strucFull, tallgrassFull, signFull;
+								treeFull, stumpFull, bushFull, rockFull, strucFull, tallgrassFull, signFull, fenceFull;
 	//SPRITESHEETS
 	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet.png"));
 
@@ -195,5 +195,6 @@ public class Assets
 	    strucFull = sheet.crop(WIDTH*4, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	    tallgrassFull = sheet.crop(WIDTH*6, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	    signFull = sheet.crop(WIDTH*8, HEIGHT*3, WIDTH*2, HEIGHT*2);
+	    fenceFull = sheet.crop(WIDTH*12, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	}
 }
