@@ -282,23 +282,31 @@ public class MenuState extends State
 	    //Showing the controls
 	    g.setFont(menuFont);
 		g.setColor(Color.BLUE);
-	    g.drawString("WASD/Arrow Keys", 145, 100);
-	    g.drawString("Escape", 245, 130);
-	    g.drawString("E", 300, 160);
-	    g.drawString("- OR scrollDown", 167, 190);
-	    g.drawString("= OR scrollUp", 190, 220);
-	    g.drawString("0", 300, 250);
-	    g.drawString("Left Click", 230, 280);
-	    g.drawString("Middle Click", 205, 310);
+	    g.drawString("WASD/Arrow Keys", 25, 60);
+	    g.drawString("Escape", 125, 85);
+	    g.drawString("E", 180, 110);
+	    g.drawString("Scroll Down", 87, 135);
+	    g.drawString("Scroll Up", 113, 160);
+	    g.drawString("Left Click", 110, 185);
+	    g.drawString("Middle Click", 85, 210);
+	    g.drawString("0", 180, 235);
+	    g.drawString("= OR +", 125, 260);
+	    g.drawString("- OR _", 125, 285);
+	    g.drawString("H", 180, 310);
+
 		g.setColor(Color.YELLOW);
-	    g.drawString("| Move the camera", 320, 100);
-	    g.drawString("| Open / Close Menu", 320, 130);
-	    g.drawString("| Open / Close Tile Selection", 320, 160);
-	    g.drawString("| Zoom Out", 320, 190);
-	    g.drawString("| Zoom In", 320, 220);
-	    g.drawString("| Zoom Reset", 320, 250);
-	    g.drawString("| Place a tile", 320, 280);
-	    g.drawString("| Copy current selected tile", 320, 310);
+	    g.drawString("| Move the camera", 200, 60);
+	    g.drawString("| Open / Close Menu", 200, 85);
+	    g.drawString("| Open / Close Tile Selection", 200, 110);
+	    g.drawString("| Zoom Out", 200, 135);
+	    g.drawString("| Zoom In", 200, 160);
+	    g.drawString("| Place a tile", 200, 185);
+	    g.drawString("| Copy current selected tile", 200, 210);
+	    g.drawString("| Change to base layer", 200, 235);
+	    g.drawString("| Move up a layer", 200, 260);
+	    g.drawString("| Move down a layer", 200, 285);
+	    g.drawString("| Highlight all tiles on the layer (can cause lag)", 200, 310);
+
 
 	    //BACK button
 	    if((handler.getKeyManager().mX >= 475 && handler.getKeyManager().mX <= 625) && (handler.getKeyManager().mY >= 20 && handler.getKeyManager().mY <= 70))

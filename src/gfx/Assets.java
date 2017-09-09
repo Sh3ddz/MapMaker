@@ -8,7 +8,7 @@ public class Assets
 	private static final int WIDTH = 16, HEIGHT = 16;
 	
 	//IMAGES
-	public static BufferedImage playerHead, playerBody, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, snow, snow2,
+	public static BufferedImage playerHead, playerBody, air, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, snow, snow2,
 								dirt, dirt2, dirt3,																		         stonepath1, stonepath2,
 								water, water2, waterRock,																		 stonepath3, stonepath4,
 								bush1, bush2, rock1, rock2, struc1, struc2, tallgrass1, tallgrass2, sign1, sign2, tallgrassend1, tallgrassend2, fencetop, fenceconnecttop,
@@ -28,7 +28,7 @@ public class Assets
 								
 								treeFull, stumpFull, bushFull, rockFull, strucFull, tallgrassFull, signFull, fenceFull;
 	//SPRITESHEETS
-	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet.png"));
+	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet2.png"));
 
 	public static void init()
 	{		
@@ -38,6 +38,7 @@ public class Assets
 		muteSound = sheet.crop(WIDTH, HEIGHT*27, WIDTH, HEIGHT);
 		nextSong = sheet.crop(WIDTH*2, HEIGHT*27, WIDTH, HEIGHT);
 		
+		air = sheet.crop(WIDTH*31, HEIGHT*31, WIDTH, HEIGHT);
 		grass = sheet.crop(0, 0, WIDTH, HEIGHT);
 		grass2 = sheet.crop(WIDTH, 0, WIDTH, HEIGHT);
 	    flower = sheet.crop(WIDTH*2, 0, WIDTH, HEIGHT);

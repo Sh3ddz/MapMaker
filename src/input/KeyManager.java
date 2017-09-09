@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 public class KeyManager implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
 	private boolean[] keys;
-	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, openTileSelection, zoomIn, zoomOut, zoomReset, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging;
+	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, highlight, openTileSelection, layerUp, layerDown, layerBase, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging;
 	public int mX,mY,cX,cY;
 	
 	public KeyManager()
@@ -32,9 +32,6 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		downArrow = keys[KeyEvent.VK_DOWN];
 		leftArrow = keys[KeyEvent.VK_LEFT];
 		rightArrow = keys[KeyEvent.VK_RIGHT];
-		//zoomIn = keys[KeyEvent.VK_EQUALS];
-		//zoomOut = keys[KeyEvent.VK_MINUS];
-		//stateSwap = keys[KeyEvent.VK_E];
 	}
 
 	@Override
@@ -45,13 +42,15 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		if(e.getKeyCode() == KeyEvent.VK_E)
 			openTileSelection = true;
 		if(e.getKeyCode() == KeyEvent.VK_EQUALS)
-			zoomIn = true;
+			layerUp = true;
 		if(e.getKeyCode() == KeyEvent.VK_MINUS)
-			zoomOut = true;
+			layerDown = true;
 		if(e.getKeyCode() == KeyEvent.VK_0)
-			zoomReset = true;
+			layerBase = true;
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			openMenu = true;
+		if(e.getKeyCode() == KeyEvent.VK_H)
+			highlight = true;
 	}
 
 	@Override
@@ -62,13 +61,15 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		if(e.getKeyCode() == KeyEvent.VK_E)
 			openTileSelection = false;
 		if(e.getKeyCode() == KeyEvent.VK_EQUALS)
-			zoomIn = false;
+			layerUp = false;
 		if(e.getKeyCode() == KeyEvent.VK_MINUS)
-			zoomOut = false;
+			layerDown = false;
 		if(e.getKeyCode() == KeyEvent.VK_0)
-			zoomReset = false;
+			layerBase = false;
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			openMenu = false;
+		if(e.getKeyCode() == KeyEvent.VK_H)
+			highlight = false;
 	}
 
 	@Override

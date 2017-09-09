@@ -1,5 +1,6 @@
 package MapMaker;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
@@ -118,6 +119,11 @@ public class MapMaker implements Runnable
 		
 		if(State.getState() != null)
 			State.getState().render(g);
+		if(State.getState() == mapMakerState)
+		{
+			g.setColor(Color.RED);
+			g.drawString("LAYER:"+selector.getCurrentLayer(), 0, 10);
+		}
 		//End Drawing!
 		bs.show();
 		g.dispose();

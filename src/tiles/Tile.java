@@ -10,7 +10,8 @@ public class Tile
 	//STATIC STUFF HERE
 	
 	//1x1 Tiles
-	public static Tile[] tiles = new Tile[256];
+	public static Tile[] tiles = new Tile[1000];
+	public static Tile air = new AirTile(999);
 	public static Tile grassTile = new GrassTile(0);
 	public static Tile grass2Tile = new Tile(Assets.grass2, 1);
 	public static Tile flower = new Tile(Assets.flower, 2);
@@ -190,6 +191,11 @@ public class Tile
 	}
 	
 	public boolean isWater()
+	{
+		return false;
+	}
+	
+	public boolean isAir()
 	{
 		return false;
 	}

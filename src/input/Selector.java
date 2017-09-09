@@ -16,6 +16,7 @@ public class Selector
 	private float x, y;
 	private int tileX, tileY;
 	private int newTileId;
+	private int currentLayer;
 	public static int width, height;
 	public int oldZoom;
 	
@@ -24,6 +25,7 @@ public class Selector
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
+		this.currentLayer = 0;
 		Selector.width = Tile.TILEWIDTH;
 		Selector.height = Tile.TILEHEIGHT;
 		this.newTileId = 0; // what the tile being clicked on will change to
@@ -47,6 +49,16 @@ public class Selector
 	public void setY(float y)
 	{
 		this.y = y;
+	}
+	
+	public int getCurrentLayer()
+	{
+		return this.currentLayer;
+	}
+	
+	public void setCurrentLayer(int l)
+	{
+		this.currentLayer = l;
 	}
 	
 	public int getNewTileId()
@@ -83,13 +95,13 @@ public class Selector
 	
 	private Tile getTileOnLocation()
 	{
-		return handler.getWorld().getTile(tileX, tileY);
+		return handler.getWorld().getTile(tileX, tileY, currentLayer);
 	}
 	
 	//changing the tile on a specific location to a new tile.
-	private void updateTileOnLocation(int x, int y, int tileId)
+	private void placeTileOnLocation(int x, int y, int tileId)
 	{
-		handler.getWorld().setTile(x, y, tileId);
+		handler.getWorld().setTile(x, y, currentLayer, tileId);
 	}
 	
 	private void getInput()
@@ -116,23 +128,67 @@ public class Selector
 			if(handler.getKeyManager().rightArrow && !handler.getKeyManager().leftArrow)		
 				handler.getMapMakerCamera().moveByTile(1,0);
 		
-			//ZOOMING(in / out / resetting)
-			if((handler.getKeyManager().zoomIn && !handler.getKeyManager().zoomOut) || (handler.getKeyManager().mouseWheelUp && !handler.getKeyManager().mouseWheelDown))
+			//ZOOMING(in / out)
+			if(handler.getKeyManager().mouseWheelUp && !handler.getKeyManager().mouseWheelDown)
 			{
 				handler.getMapMakerCamera().zoomIn();
-				handler.getKeyManager().zoomIn = false;
 				handler.getKeyManager().mouseWheelUp = false;
 			}
-			if((handler.getKeyManager().zoomOut && !handler.getKeyManager().zoomIn) || (handler.getKeyManager().mouseWheelDown && !handler.getKeyManager().mouseWheelUp))
+			if(handler.getKeyManager().mouseWheelDown && !handler.getKeyManager().mouseWheelUp)
 			{
 				handler.getMapMakerCamera().zoomOut();
-				handler.getKeyManager().zoomOut = false;
 				handler.getKeyManager().mouseWheelDown = false;
 			}
-			if(handler.getKeyManager().zoomReset)
-			{	
-				handler.getMapMakerCamera().zoomReset();
-				handler.getKeyManager().zoomReset = false;
+			
+			//SHIFTING LAYERS
+			//UP LAYER
+			if(handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
+			{
+				if(this.currentLayer<3)
+				{
+					this.currentLayer++;
+				}
+				else//rolls over
+				{
+					this.currentLayer = 0;
+				}
+				handler.getWorld().setHighlightLayer(currentLayer);
+				handler.getKeyManager().layerUp = false;
+			}
+			//DOWN LAYER
+			if(handler.getKeyManager().layerDown && !handler.getKeyManager().layerUp)
+			{
+				if(this.currentLayer>0)
+				{
+					this.currentLayer--;
+				}
+				else//rolls over
+				{
+					this.currentLayer = 3;
+				}
+				handler.getWorld().setHighlightLayer(currentLayer);
+				handler.getKeyManager().layerDown = false;
+			}
+			//highlighting layer
+			if(handler.getKeyManager().highlight)
+			{
+				if(!handler.getWorld().getHighlight())
+				{
+					handler.getWorld().setHighlight(true);
+					handler.getKeyManager().highlight = false;
+				}
+				else //unhighlighting
+				{
+					handler.getWorld().setHighlight(false);
+					handler.getKeyManager().highlight = false;
+				}
+			}
+			//BASE LAYER
+			if(handler.getKeyManager().layerBase && !handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
+			{
+				this.currentLayer = 0;
+				handler.getWorld().setHighlightLayer(currentLayer);
+				handler.getKeyManager().layerBase = false;
 			}
 			
 			//LEFT CLICKING ON TILES, so they can be changed.
@@ -140,7 +196,7 @@ public class Selector
 			{
 				if(this.newTileId != getTileOnLocation().getId()) //so it doesnt place the same tile thats already on the loc
 				{	
-					updateTileOnLocation(tileX, tileY, newTileId);
+					placeTileOnLocation(tileX, tileY, newTileId);
 					Sound.playSfx("placeTile.wav");
 				}
 			}
