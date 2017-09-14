@@ -88,7 +88,7 @@ public class MapMaker implements Runnable
 		this.handler = new Handler(this);
 		this.selector = new Selector(handler, 0, 0);
 		this.handler.setSelector(selector);
-		
+
 		this.mapMakerCamera = new MapMakerCamera(this, handler.getWorld(), handler);
 
 		this.mapMakerState = new MapMakerState(handler);
@@ -116,7 +116,6 @@ public class MapMaker implements Runnable
 		//Clear Screen
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
-		
 		if(State.getState() != null)
 			State.getState().render(g);
 		if(State.getState() == mapMakerState)

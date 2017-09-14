@@ -88,7 +88,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 160;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.bushFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -96,7 +96,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 208;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.rockFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -104,7 +104,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 256;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.strucFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -112,7 +112,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 304;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.tallgrassFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -120,7 +120,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 352;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.signFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -128,7 +128,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 400;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.stumpFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*4, Tile.TILEHEIGHT*4, null);
 			yRender = tempYRender;
 		}
@@ -136,7 +136,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 32;
 			int tempYRender = yRender;
-			yRender = 192;
+			yRender = 416;
 			g.drawImage(Assets.treeFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*7, Tile.TILEHEIGHT*9, null);
 			yRender = tempYRender;
 		}
@@ -144,7 +144,7 @@ public class TileSelectorState extends State
 		{
 			xRender = 160;
 			int tempYRender = yRender;
-			yRender = 240;
+			yRender = 464;
 			g.drawImage(Assets.fenceFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
@@ -192,49 +192,49 @@ public class TileSelectorState extends State
 		if(i == 15)
 		{
 			xSelect = 160;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 32;
 		}
 		if(i == 19)
 		{
 			xSelect = 208;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 32;
 		}
 		if(i == 23)
 		{
 			xSelect = 256;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 32;
 		}
 		if(i == 27)
 		{
 			xSelect = 304;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 32;
 		}
 		if(i == 31)
 		{
 			xSelect = 352;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 32;
 		}
 		if(i == 35)
 		{
 			xSelect = 400;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 64;
 		}
 		if(i == 51)
 		{
 			xSelect = 32;
-			ySelect = 192;
+			ySelect = 416;
 			addNum = 112;
 		}
 		if(i == 125)
 		{
 			xSelect = 160;
-			ySelect = 240;
+			ySelect = 464;
 			addNum= 32;
 		}
 		

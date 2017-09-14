@@ -31,7 +31,7 @@ public class World
 	
 	private int highlightLayer = 0;
 	private boolean highlight = false;
-	private Color highlightColor = new Color(255,0,0,100);
+	private Color highlightColor = new Color(255,255,0,100);
 
 	public World(Handler handler, String path)
 	{
@@ -137,8 +137,6 @@ public class World
 				{
 					if(layers.get(l)[x][y]  == 0)
 						layers.get(l)[x][y] = Utils.parseInt(tokens[token]);
-					if(layers.get(l)[x][y]  != 0)
-						generateLargerTiles(x, y, l);
 					token++;
 				}
 			}

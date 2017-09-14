@@ -24,7 +24,12 @@ public class Tile
 	public static Tile path3Tile = new Tile(Assets.path3, 9);
 	public static Tile path4Tile = new Tile(Assets.path4, 134);
 	public static Tile dirtTile = new Tile(Assets.dirt, 10);
-	public static Tile dirt2Tile = new Tile(Assets.dirt2, 11);
+	public static Tile dirt2Tile = new Tile(Assets.dirt2, 139);
+	public static Tile dirt3Tile = new Tile(Assets.dirt3, 140);
+	public static Tile dirt4Tile = new Tile(Assets.dirt4, 141);
+	public static Tile dirt5Tile = new Tile(Assets.dirt5, 142);
+	public static Tile smallRockTile = new SolidTile(Assets.smallRock, 143);
+	public static Tile mushroomTile = new SolidTile(Assets.mushroom, 144);
 	public static Tile waterTile = new WaterTile(Assets.water, 12);
 	public static Tile water2Tile = new WaterTile(Assets.water2, 13);
 	public static Tile waterRockTile = new SolidTile(Assets.waterRock, 14);
@@ -65,7 +70,20 @@ public class Tile
 	public static Tile stonepath2Tile = new Tile(Assets.stonepath2, 136);
 	public static Tile stonepath3Tile = new Tile(Assets.stonepath3, 137);
 	public static Tile stonepath4Tile = new Tile(Assets.stonepath4, 138);
-
+	public static Tile mushroomGroup1Tile = new SolidTile(Assets.mushroomGroup1, 145);
+	public static Tile mushroomGroup2Tile = new SolidTile(Assets.mushroomGroup2, 146);
+	public static Tile mushroomGroup3Tile = new SolidTile(Assets.mushroomGroup3, 147);
+	public static Tile mushroomGroup4Tile = new SolidTile(Assets.mushroomGroup4, 148);
+	public static Tile bench1 = new Tile(Assets.bench1, 234);
+	public static Tile bench2 = new Tile(Assets.bench2, 235);
+	public static Tile bench3 = new Tile(Assets.bench3, 236);
+	public static Tile bench4 = new Tile(Assets.bench4, 237);
+	public static Tile bench5 = new Tile(Assets.bench5, 238);
+	public static Tile bench6 = new Tile(Assets.bench6, 239);
+	public static Tile chair1 = new Tile(Assets.chair1, 252);
+	public static Tile chair2 = new Tile(Assets.chair2, 253);
+	public static Tile chair3 = new Tile(Assets.chair3, 254);
+	public static Tile chair4 = new Tile(Assets.chair4, 255);
 	
 	//4x4 Tiles
 	public static Tile stump1Tile = new SolidTile(Assets.stump1, 35);
@@ -84,6 +102,34 @@ public class Tile
 	public static Tile stump14Tile = new SolidTile(Assets.stump14, 48);
 	public static Tile stump15Tile = new SolidTile(Assets.stump15, 49);
 	public static Tile stump16Tile = new SolidTile(Assets.stump16, 50);
+	public static Tile stumpTree1Tile = new SolidTile(Assets.stumpTree1, 149);
+	public static Tile stumpTree2Tile = new SolidTile(Assets.stumpTree2, 150);
+	public static Tile stumpTree3Tile = new SolidTile(Assets.stumpTree3, 151);
+	public static Tile stumpTree4Tile = new SolidTile(Assets.stumpTree4, 152);
+	public static Tile stumpTree5Tile = new SolidTile(Assets.stumpTree5, 153);
+	public static Tile stumpTree6Tile = new SolidTile(Assets.stumpTree6, 154);
+	public static Tile stumpTree7Tile = new SolidTile(Assets.stumpTree7, 155);
+	public static Tile stumpTree8Tile = new SolidTile(Assets.stumpTree8, 156);
+	public static Tile stumpTree9Tile = new SolidTile(Assets.stumpTree9, 157);
+	public static Tile stumpTree10Tile = new SolidTile(Assets.stumpTree10, 158);
+	public static Tile stumpTree11Tile = new SolidTile(Assets.stumpTree11, 159);
+	public static Tile stumpTree12Tile = new SolidTile(Assets.stumpTree12, 160);
+	public static Tile stumpTree13Tile = new SolidTile(Assets.stumpTree13, 161);
+	public static Tile stumpTree14Tile = new SolidTile(Assets.stumpTree14, 162);
+	public static Tile stumpTree15Tile = new SolidTile(Assets.stumpTree15, 163);
+	public static Tile stumpTree16Tile = new SolidTile(Assets.stumpTree16, 164);
+	public static Tile table1 = new SolidTile(Assets.table1, 240);
+	public static Tile table2 = new SolidTile(Assets.table2, 241);
+	public static Tile table3 = new SolidTile(Assets.table3, 242);
+	public static Tile table4 = new SolidTile(Assets.table4, 243);
+	public static Tile table5 = new SolidTile(Assets.table5, 244);
+	public static Tile table6 = new SolidTile(Assets.table6, 245);
+	public static Tile table7 = new SolidTile(Assets.table7, 246);
+	public static Tile table8 = new SolidTile(Assets.table8, 247);
+	public static Tile table9 = new SolidTile(Assets.table9, 248);
+	public static Tile table10 = new SolidTile(Assets.table10, 249);
+	public static Tile table11 = new SolidTile(Assets.table11, 250);
+	public static Tile table12 = new SolidTile(Assets.table12, 251);
 	
 	//EVEN LARGER TILES...
 	public static Tile tree1Tile = new SolidTile(Assets.tree1, 51);
@@ -158,7 +204,78 @@ public class Tile
 	public static Tile tree70Tile = new SolidTile(Assets.tree70, 120);
 	public static Tile tree71Tile = new SolidTile(Assets.tree71, 121);
 	public static Tile tree72Tile = new SolidTile(Assets.tree72, 122);
-
+	
+	public static Tile house1Tile = new SolidTile(Assets.house1, 165);
+    public static Tile house2Tile = new SolidTile(Assets.house2, 166);
+    public static Tile house3Tile = new SolidTile(Assets.house3, 167);
+    public static Tile house4Tile = new SolidTile(Assets.house4, 168);
+    public static Tile house5Tile = new SolidTile(Assets.house5, 169);
+    public static Tile house6Tile = new SolidTile(Assets.house6, 170);
+    public static Tile house7Tile = new SolidTile(Assets.house7, 171);
+    public static Tile house8Tile = new SolidTile(Assets.house8, 172);
+    public static Tile house9Tile = new SolidTile(Assets.house9, 173);
+    public static Tile house10Tile = new SolidTile(Assets.house10, 174);
+    public static Tile house11Tile = new SolidTile(Assets.house11, 175);
+    public static Tile house12Tile = new SolidTile(Assets.house12, 176);
+    public static Tile house13Tile = new SolidTile(Assets.house13, 177);
+    public static Tile house14Tile = new SolidTile(Assets.house14, 178);
+    public static Tile house15Tile = new SolidTile(Assets.house15, 179);
+    public static Tile house16Tile = new SolidTile(Assets.house16, 180);
+    public static Tile house17Tile = new SolidTile(Assets.house17, 181);
+    public static Tile house18Tile = new SolidTile(Assets.house18, 182);
+    public static Tile house19Tile = new SolidTile(Assets.house19, 183);
+    public static Tile house20Tile = new SolidTile(Assets.house20, 184);
+    public static Tile house21Tile = new SolidTile(Assets.house21, 185);
+    public static Tile house22Tile = new SolidTile(Assets.house22, 186);
+    public static Tile house23Tile = new SolidTile(Assets.house23, 187);
+    public static Tile house24Tile = new SolidTile(Assets.house24, 188);
+    public static Tile house25Tile = new SolidTile(Assets.house25, 189);
+    public static Tile house26Tile = new SolidTile(Assets.house26, 190);
+    public static Tile house27Tile = new SolidTile(Assets.house27, 191);
+    public static Tile house28Tile = new SolidTile(Assets.house28, 192);
+    public static Tile house29Tile = new SolidTile(Assets.house29, 193);
+    public static Tile house30Tile = new SolidTile(Assets.house30, 194);
+    public static Tile house31Tile = new SolidTile(Assets.house31, 195);
+    public static Tile house32Tile = new SolidTile(Assets.house32, 196);
+    public static Tile house33Tile = new SolidTile(Assets.house33, 197);
+    public static Tile house34Tile = new SolidTile(Assets.house34, 198);
+    public static Tile house35Tile = new SolidTile(Assets.house35, 199);
+    public static Tile house36Tile = new SolidTile(Assets.house36, 200);
+    public static Tile house37Tile = new SolidTile(Assets.house37, 201);
+    public static Tile house38Tile = new SolidTile(Assets.house38, 202);
+    public static Tile house39Tile = new SolidTile(Assets.house39, 203);
+    public static Tile house40Tile = new SolidTile(Assets.house40, 204);
+    public static Tile house41Tile = new SolidTile(Assets.house41, 205);
+    public static Tile house42Tile = new SolidTile(Assets.house42, 206);
+    public static Tile house43Tile = new SolidTile(Assets.house43, 207);
+    public static Tile house44Tile = new SolidTile(Assets.house44, 208);
+    public static Tile house45Tile = new SolidTile(Assets.house45, 209);
+    public static Tile house46Tile = new SolidTile(Assets.house46, 210);
+    public static Tile house47Tile = new SolidTile(Assets.house47, 211);
+    public static Tile house48Tile = new SolidTile(Assets.house48, 212);
+    public static Tile house49Tile = new SolidTile(Assets.house49, 213);
+    public static Tile house50Tile = new SolidTile(Assets.house50, 214);
+    public static Tile house51Tile = new SolidTile(Assets.house51, 215);
+    public static Tile house52Tile = new SolidTile(Assets.house52, 216);
+    public static Tile house53Tile = new SolidTile(Assets.house53, 217);
+    public static Tile house54Tile = new SolidTile(Assets.house54, 218);
+    public static Tile house55Tile = new SolidTile(Assets.house55, 219);
+    public static Tile houseShadow1Tile = new Tile(Assets.houseShadow1, 220);
+    public static Tile houseShadow2Tile = new Tile(Assets.houseShadow2, 221);
+    public static Tile houseShadow3Tile = new Tile(Assets.houseShadow3, 222);
+    //hedge
+    public static Tile hedge1 = new SolidTile(Assets.hedge1, 223);
+    public static Tile hedge2 = new SolidTile(Assets.hedge2, 224);
+    public static Tile hedge3 = new SolidTile(Assets.hedge3, 225);
+    public static Tile hedge4 = new SolidTile(Assets.hedge4, 226);
+    public static Tile hedge5 = new SolidTile(Assets.hedge5, 227);
+    public static Tile hedge6 = new SolidTile(Assets.hedge6, 228);
+    public static Tile hedge7 = new SolidTile(Assets.hedge7, 229);
+    public static Tile hedge8 = new SolidTile(Assets.hedge8, 230);
+    public static Tile hedge9 = new SolidTile(Assets.hedge9, 231);
+    public static Tile hedge10 = new SolidTile(Assets.hedge10, 232);
+    public static Tile hedge11 = new SolidTile(Assets.hedge11, 233);
+	
 	//CLASS
 	public static int TILEWIDTH, TILEHEIGHT;
 	

@@ -14,7 +14,7 @@ public class MapMakerState extends State
 	public MapMakerState(Handler handler)
 	{
 		super(handler);
-		this.world = new World(handler, "src/resources/worlds/TestWorld.txt");
+		this.world = new World(handler, "src/resources/worlds/Graal.txt");
 		handler.setWorld(world);
 		this.selector = handler.getSelector();
 	}
