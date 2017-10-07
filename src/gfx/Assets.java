@@ -9,8 +9,8 @@ public class Assets
 	
 	//IMAGES
 	public static BufferedImage playerHead, playerBody, air, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, smallRock, mushroom, snow, snow2,
-								dirt, dirt2, dirt3, dirt4, dirt5,																         stonepath1, stonepath2, mushroomGroup1, mushroomGroup2, mushroomGroup3, mushroomGroup4,
-								water, water2, waterRock,																		 stonepath3, stonepath4,
+								dirt, dirt2, dirt3, dirt4, dirt5,													spawnPad1, spawnPad2, stonepath1, stonepath2, path5, mushroomGroup1, mushroomGroup2, mushroomGroup3, mushroomGroup4,
+								water, water2, waterRock,															spawnPad3, spawnPad4, stonepath3, stonepath4,
 								bush1, bush2, rock1, rock2, struc1, struc2, tallgrass1, tallgrass2, sign1, sign2, tallgrassend1, tallgrassend2, fencetop, fenceconnecttop,							bench1, bench2, bench3, chair1, chair2,
 								bush3, bush4, rock3, rock4, struc3, struc4, tallgrass3, tallgrass4, sign3, sign4, tallgrassend3, tallgrassend4, fencebottom, fenceconnectshadow, fenceconnectdown,  bench4, bench5, bench6, chair3, chair4,
 								       tree1, tree2, tree3, tree4, tree5, tree6,					stump1, stump2, stump3, stump4,
@@ -32,12 +32,23 @@ public class Assets
 							    house49, house50, house51, house52, house53, house54, house55, houseShadow1, houseShadow2, houseShadow3,
 								selector, muteSound, nextSong,
 								hedge1, hedge2, hedge3, hedge4, hedge5, hedge6, hedge7, hedge8, 
-								hedge9, hedge10, hedge11, 
+								hedge9, hedge10, hedge11,
+								cliff1, cliff2, cliff3, cliff4, cliff5, cliff6, cliff7, cliff8, cliff9, cliff10,
+								cliff11, cliff12, cliff13, cliff14, cliff15, cliff16, cliff17, cliff18, cliff19, cliff20,
+								cliff21, cliff22, cliff23, cliff24, cliff25, cliff26, cliff27, cliff28, cliff29, cliff30,
+								cliff31, cliff32, cliff33, cliff34, cliff35, cliff36, cliff37, cliff38, cliff39, cliff40,
+								cliff41, cliff42, cliff43, cliff44, cliff45, cliff46, cliff47, cliff48, cliff49, cliff50,
+								cliff51, cliff52, cliff53, cliff54, cliff55, cliff56, cliff57, cliff58, cliff59, cliff60,
+								cliff61, cliff62, cliff63, cliff64, cliff65, cliff66, cliff67, cliff68,
 								treeFull, stumpFull, stumpTreeFull, bushFull, rockFull, strucFull, tallgrassFull, signFull, fenceFull, mushroomGroupFull;
 	//SPRITESHEETS
-	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/spritesheet2.png"));
+	//
 	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/textures/loading.png");
-
+	//FOR Graal Online Classic tiles:
+	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/tileSpriteSheet.png"));
+	//FOR A Link To The Past tiles:
+	//public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/ALTTPSpriteSheet.png"));	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/textures/loading.png");
+	
 	public static void init()
 	{		
 		playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
@@ -58,6 +69,7 @@ public class Assets
 	    path2 = sheet.crop(WIDTH*8, 0, WIDTH, HEIGHT);
 	    path3 = sheet.crop(WIDTH*9, 0, WIDTH, HEIGHT);
 	    path4 = sheet.crop(WIDTH*10, 0, WIDTH, HEIGHT);
+	    path5 = sheet.crop(WIDTH*10, HEIGHT, WIDTH, HEIGHT);
 	    dirt = sheet.crop(0, HEIGHT, WIDTH, HEIGHT);
 	    dirt2 = sheet.crop(WIDTH, HEIGHT, WIDTH, HEIGHT);
 	    dirt3 = sheet.crop(WIDTH*2, HEIGHT, WIDTH, HEIGHT);
@@ -105,6 +117,10 @@ public class Assets
 	    stonepath2 = sheet.crop(WIDTH*9, HEIGHT, WIDTH, HEIGHT);
 	    stonepath3 = sheet.crop(WIDTH*8, HEIGHT*2, WIDTH, HEIGHT);
 	    stonepath4 = sheet.crop(WIDTH*9, HEIGHT*2, WIDTH, HEIGHT);
+	    spawnPad1 = sheet.crop(WIDTH*6, HEIGHT, WIDTH, HEIGHT);
+	    spawnPad2 = sheet.crop(WIDTH*7, HEIGHT, WIDTH, HEIGHT);
+	    spawnPad3 = sheet.crop(WIDTH*6, HEIGHT*2, WIDTH, HEIGHT);
+	    spawnPad4 = sheet.crop(WIDTH*7, HEIGHT*2, WIDTH, HEIGHT);
 	    mushroomGroup1 = sheet.crop(WIDTH*11, WIDTH, WIDTH, HEIGHT);
 	    mushroomGroup2 = sheet.crop(WIDTH*12, WIDTH, WIDTH, HEIGHT);
 	    mushroomGroup3 = sheet.crop(WIDTH*11, WIDTH*2, WIDTH, HEIGHT);
@@ -301,6 +317,75 @@ public class Assets
 	    houseShadow1 = sheet.crop(WIDTH*14, HEIGHT*8, WIDTH, HEIGHT);
 	    houseShadow2 = sheet.crop(WIDTH*14, HEIGHT*9, WIDTH, HEIGHT);
 	    houseShadow3 = sheet.crop(WIDTH*14, HEIGHT*10, WIDTH, HEIGHT);
+	    //cliff
+	    cliff1 = sheet.crop(WIDTH*25, HEIGHT*9, WIDTH, HEIGHT);
+	    cliff2 = sheet.crop(WIDTH*26, HEIGHT*9, WIDTH, HEIGHT);
+	    cliff3 = sheet.crop(WIDTH*23, HEIGHT*10, WIDTH, HEIGHT);
+	    cliff4 = sheet.crop(WIDTH*25, HEIGHT*10, WIDTH, HEIGHT);
+	    cliff5 = sheet.crop(WIDTH*26, HEIGHT*10, WIDTH, HEIGHT);
+	    cliff6 = sheet.crop(WIDTH*28, HEIGHT*10, WIDTH, HEIGHT);
+	    cliff7 = sheet.crop(WIDTH*22, HEIGHT*11, WIDTH, HEIGHT);
+	    cliff8 = sheet.crop(WIDTH*23, HEIGHT*11, WIDTH, HEIGHT);
+	    cliff9 = sheet.crop(WIDTH*25, HEIGHT*11, WIDTH, HEIGHT);
+	    cliff10 = sheet.crop(WIDTH*26, HEIGHT*11, WIDTH, HEIGHT);
+		cliff11 = sheet.crop(WIDTH*28, HEIGHT*11, WIDTH, HEIGHT);
+		cliff12 = sheet.crop(WIDTH*29, HEIGHT*11, WIDTH, HEIGHT);
+		cliff13 = sheet.crop(WIDTH*22, HEIGHT*12, WIDTH, HEIGHT);
+		cliff14 = sheet.crop(WIDTH*23, HEIGHT*12, WIDTH, HEIGHT);
+		cliff15 = sheet.crop(WIDTH*24, HEIGHT*12, WIDTH, HEIGHT);
+		cliff16 = sheet.crop(WIDTH*25, HEIGHT*12, WIDTH, HEIGHT);
+		cliff17 = sheet.crop(WIDTH*26, HEIGHT*12, WIDTH, HEIGHT);
+		cliff18 = sheet.crop(WIDTH*27, HEIGHT*12, WIDTH, HEIGHT);
+		cliff19 = sheet.crop(WIDTH*28, HEIGHT*12, WIDTH, HEIGHT);
+		cliff20 = sheet.crop(WIDTH*29, HEIGHT*12, WIDTH, HEIGHT);
+		cliff21 = sheet.crop(WIDTH*22, HEIGHT*13, WIDTH, HEIGHT);
+		cliff22 = sheet.crop(WIDTH*23, HEIGHT*13, WIDTH, HEIGHT);
+		cliff23 = sheet.crop(WIDTH*24, HEIGHT*13, WIDTH, HEIGHT);
+		cliff24 = sheet.crop(WIDTH*27, HEIGHT*13, WIDTH, HEIGHT);
+		cliff25 = sheet.crop(WIDTH*28, HEIGHT*13, WIDTH, HEIGHT);
+		cliff26 = sheet.crop(WIDTH*29, HEIGHT*13, WIDTH, HEIGHT);
+		cliff27 = sheet.crop(WIDTH*22, HEIGHT*14, WIDTH, HEIGHT);
+		cliff28 = sheet.crop(WIDTH*23, HEIGHT*14, WIDTH, HEIGHT);
+		cliff29 = sheet.crop(WIDTH*24, HEIGHT*14, WIDTH, HEIGHT);
+		cliff30 = sheet.crop(WIDTH*27, HEIGHT*14, WIDTH, HEIGHT);
+		cliff31 = sheet.crop(WIDTH*28, HEIGHT*14, WIDTH, HEIGHT);
+		cliff32 = sheet.crop(WIDTH*29, HEIGHT*14, WIDTH, HEIGHT);
+		cliff33 = sheet.crop(WIDTH*22, HEIGHT*16, WIDTH, HEIGHT);
+		cliff34 = sheet.crop(WIDTH*23, HEIGHT*16, WIDTH, HEIGHT);
+		cliff35 = sheet.crop(WIDTH*24, HEIGHT*16, WIDTH, HEIGHT);
+		cliff36 = sheet.crop(WIDTH*25, HEIGHT*16, WIDTH, HEIGHT);
+		cliff37 = sheet.crop(WIDTH*26, HEIGHT*16, WIDTH, HEIGHT);
+		cliff38 = sheet.crop(WIDTH*27, HEIGHT*16, WIDTH, HEIGHT);
+		cliff39 = sheet.crop(WIDTH*28, HEIGHT*16, WIDTH, HEIGHT);
+		cliff40 = sheet.crop(WIDTH*29, HEIGHT*16, WIDTH, HEIGHT);
+		cliff41 = sheet.crop(WIDTH*22, HEIGHT*17, WIDTH, HEIGHT);
+		cliff42 = sheet.crop(WIDTH*23, HEIGHT*17, WIDTH, HEIGHT);
+		cliff43 = sheet.crop(WIDTH*24, HEIGHT*17, WIDTH, HEIGHT);
+		cliff44 = sheet.crop(WIDTH*25, HEIGHT*17, WIDTH, HEIGHT);
+		cliff45 = sheet.crop(WIDTH*26, HEIGHT*17, WIDTH, HEIGHT);
+		cliff46 = sheet.crop(WIDTH*27, HEIGHT*17, WIDTH, HEIGHT);
+		cliff47 = sheet.crop(WIDTH*28, HEIGHT*17, WIDTH, HEIGHT);
+		cliff48 = sheet.crop(WIDTH*29, HEIGHT*17, WIDTH, HEIGHT);
+		cliff49 = sheet.crop(WIDTH*23, HEIGHT*18, WIDTH, HEIGHT);
+		cliff50 = sheet.crop(WIDTH*24, HEIGHT*18, WIDTH, HEIGHT);
+		cliff51 = sheet.crop(WIDTH*25, HEIGHT*18, WIDTH, HEIGHT);
+		cliff52 = sheet.crop(WIDTH*26, HEIGHT*18, WIDTH, HEIGHT);
+		cliff53 = sheet.crop(WIDTH*27, HEIGHT*18, WIDTH, HEIGHT);
+		cliff54 = sheet.crop(WIDTH*28, HEIGHT*18, WIDTH, HEIGHT);
+		cliff55 = sheet.crop(WIDTH*23, HEIGHT*19, WIDTH, HEIGHT);
+		cliff56 = sheet.crop(WIDTH*24, HEIGHT*19, WIDTH, HEIGHT);
+		cliff57 = sheet.crop(WIDTH*25, HEIGHT*19, WIDTH, HEIGHT);
+		cliff58 = sheet.crop(WIDTH*26, HEIGHT*19, WIDTH, HEIGHT);
+		cliff59 = sheet.crop(WIDTH*27, HEIGHT*19, WIDTH, HEIGHT);
+		cliff60 = sheet.crop(WIDTH*28, HEIGHT*19, WIDTH, HEIGHT);
+		cliff61 = sheet.crop(WIDTH*24, HEIGHT*20, WIDTH, HEIGHT);
+		cliff62 = sheet.crop(WIDTH*25, HEIGHT*20, WIDTH, HEIGHT);
+		cliff63 = sheet.crop(WIDTH*26, HEIGHT*20, WIDTH, HEIGHT);
+		cliff64 = sheet.crop(WIDTH*27, HEIGHT*20, WIDTH, HEIGHT);
+		cliff65 = sheet.crop(WIDTH*24, HEIGHT*21, WIDTH, HEIGHT);
+		cliff66 = sheet.crop(WIDTH*25, HEIGHT*21, WIDTH, HEIGHT);
+		cliff67 = sheet.crop(WIDTH*26, HEIGHT*21, WIDTH, HEIGHT);
+		cliff68 = sheet.crop(WIDTH*27, HEIGHT*21, WIDTH, HEIGHT);
 	    //Hedge
 	    hedge1 = sheet.crop(WIDTH*15, HEIGHT, WIDTH, HEIGHT);
 	    hedge2 = sheet.crop(WIDTH*16, HEIGHT, WIDTH, HEIGHT);

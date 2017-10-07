@@ -37,6 +37,8 @@ public class MapMaker implements Runnable
 	public String title;
 	
 	private boolean running = false;
+	public boolean loading;
+	
 	private Thread thread;
 	
 	private BufferStrategy bs;
@@ -67,6 +69,8 @@ public class MapMaker implements Runnable
 	
 	private void init()
 	{
+		this.loading = true;
+				
 		this.display = new Display(title, width, height);
 		//adding keyManager. / input listeners to the frame and canvas.
 		display.getFrame().addKeyListener(keyManager);
@@ -95,6 +99,8 @@ public class MapMaker implements Runnable
 		this.menuState = new MenuState(handler);
 		this.tileSelectorState = new TileSelectorState(handler);
 		State.setState(mapMakerState);
+		
+		this.loading = false;
 	}
 	
 	private void tick() throws IOException

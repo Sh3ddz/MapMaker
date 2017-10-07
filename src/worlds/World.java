@@ -59,7 +59,7 @@ public class World
 		layers.get(layer)[x][y] = id;
 		
 		//checking to generate a larger tile. (only need to check the ones which can generate larger tiles.)
-		if(id == 15 || id == 19 || id == 23 || id == 27 || id == 31 || id == 35 || id == 51 || id == 125)
+		if(id == 15 || id == 19 || id == 23 || id == 27 || id == 31 || id == 35 || id == 51 || id == 125 || id == 149)
 		{
 			generateLargerTiles(x, y, layer);
 		}
@@ -392,167 +392,190 @@ public class World
 	private void generateLargerTiles(int x, int y, int layer)
 	{
 		//making bush
-		if(layers.get(layer)[x][y] == 15)
+		if(layers.get(layer)[x][y] == Tile.bush1Tile.getId())
 		{
 			if((x+1<layers.get(layer)[x].length)&&(y+1<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 15;
-				layers.get(layer)[x+1][y] = 16;
-				layers.get(layer)[x][y+1] = 17;
-				layers.get(layer)[x+1][y+1] = 18;
+				layers.get(layer)[x][y] = Tile.bush1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.bush2Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.bush3Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.bush4Tile.getId();
 			}
 		}
 		
 		//making rock
-		if(layers.get(layer)[x][y] == 19)
+		if(layers.get(layer)[x][y] == Tile.rock1Tile.getId())
 		{
 			if((x+1<layers.get(layer)[x].length)&&(y+1<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 19;
-				layers.get(layer)[x+1][y] = 20;
-				layers.get(layer)[x][y+1] = 21;
-				layers.get(layer)[x+1][y+1] = 22;
+				layers.get(layer)[x][y] = Tile.rock1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.rock2Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.rock3Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.rock4Tile.getId();
 			}
 		}
 		
 		//making struc
-		if(layers.get(layer)[x][y] == 23)
+		if(layers.get(layer)[x][y] == Tile.struc1Tile.getId())
 		{
 			if((x+1<layers.get(layer)[x].length)&&(y+1<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 23;
-				layers.get(layer)[x+1][y] = 24;
-				layers.get(layer)[x][y+1] = 25;
-				layers.get(layer)[x+1][y+1] = 26;
+				layers.get(layer)[x][y] = Tile.struc1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.struc2Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.struc3Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.struc4Tile.getId();
 			}
 		}
 		
 		//making tallGrass
-		if(layers.get(layer)[x][y] == 27)
+		if(layers.get(layer)[x][y] == Tile.tallGrass1Tile.getId())
 		{
 			if((x+1<layers.get(layer)[x].length)&&(y+1<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 27;
-				layers.get(layer)[x+1][y] = 28;
-				layers.get(layer)[x][y+1] = 29;
-				layers.get(layer)[x+1][y+1] = 30;
+				layers.get(layer)[x][y] = Tile.tallGrass1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.tallGrass2Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.tallGrass3Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.tallGrass4Tile.getId();
 			}
 		}
 		
 		//making sign
-		if(layers.get(layer)[x][y] == 31)
+		if(layers.get(layer)[x][y] == Tile.sign1Tile.getId())
 		{
 			if((x+1<layers.get(layer)[x].length)&&(y+1<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 31;
-				layers.get(layer)[x+1][y] = 32;
-				layers.get(layer)[x][y+1] = 33;
-				layers.get(layer)[x+1][y+1] = 34;
+				layers.get(layer)[x][y] = Tile.sign1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.sign2Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.sign3Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.sign4Tile.getId();
 			}
 		}
 		
 		//making stump
-		if(layers.get(layer)[x][y] == 35)
+		if(layers.get(layer)[x][y] == Tile.stump1Tile.getId())
 		{
 			if((x+3<layers.get(layer)[x].length)&&(y+3<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 35;
-				layers.get(layer)[x+1][y] = 36;
-				layers.get(layer)[x+2][y] = 37;
-				layers.get(layer)[x+3][y] = 38;
-				layers.get(layer)[x][y+1] = 39;
-				layers.get(layer)[x+1][y+1] = 40;
-				layers.get(layer)[x+2][y+1] = 41;
-				layers.get(layer)[x+3][y+1] = 42;
-				layers.get(layer)[x][y+2] = 43;
-				layers.get(layer)[x+1][y+2] = 44;
-				layers.get(layer)[x+2][y+2] = 45;
-				layers.get(layer)[x+3][y+2] = 46;
-				layers.get(layer)[x][y+3] = 47;
-				layers.get(layer)[x+1][y+3] = 48;
-				layers.get(layer)[x+2][y+3] = 49;
-				layers.get(layer)[x+3][y+3] = 50;
+				layers.get(layer)[x][y] = Tile.stump1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.stump2Tile.getId();
+				layers.get(layer)[x+2][y] = Tile.stump3Tile.getId();
+				layers.get(layer)[x+3][y] = Tile.stump4Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.stump5Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.stump6Tile.getId();
+				layers.get(layer)[x+2][y+1] = Tile.stump7Tile.getId();
+				layers.get(layer)[x+3][y+1] = Tile.stump8Tile.getId();
+				layers.get(layer)[x][y+2] = Tile.stump9Tile.getId();
+				layers.get(layer)[x+1][y+2] = Tile.stump10Tile.getId();
+				layers.get(layer)[x+2][y+2] = Tile.stump11Tile.getId();
+				layers.get(layer)[x+3][y+2] = Tile.stump12Tile.getId();
+				layers.get(layer)[x][y+3] = Tile.stump13Tile.getId();
+				layers.get(layer)[x+1][y+3] = Tile.stump14Tile.getId();
+				layers.get(layer)[x+2][y+3] = Tile.stump15Tile.getId();
+				layers.get(layer)[x+3][y+3] = Tile.stump16Tile.getId();
+			}
+		}
+		//making stumpTree
+		if(layers.get(layer)[x][y] == Tile.stumpTree1Tile.getId())
+		{
+			if((x+3<layers.get(layer)[x].length)&&(y+3<layers.get(layer).length))
+			{
+				layers.get(layer)[x][y] = Tile.stumpTree1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.stumpTree2Tile.getId();
+				layers.get(layer)[x+2][y] = Tile.stumpTree3Tile.getId();
+				layers.get(layer)[x+3][y] = Tile.stumpTree4Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.stumpTree5Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.stumpTree6Tile.getId();
+				layers.get(layer)[x+2][y+1] = Tile.stumpTree7Tile.getId();
+				layers.get(layer)[x+3][y+1] = Tile.stumpTree8Tile.getId();
+				layers.get(layer)[x][y+2] = Tile.stumpTree9Tile.getId();
+				layers.get(layer)[x+1][y+2] = Tile.stumpTree10Tile.getId();
+				layers.get(layer)[x+2][y+2] = Tile.stumpTree11Tile.getId();
+				layers.get(layer)[x+3][y+2] = Tile.stumpTree12Tile.getId();
+				layers.get(layer)[x][y+3] = Tile.stumpTree13Tile.getId();
+				layers.get(layer)[x+1][y+3] = Tile.stumpTree14Tile.getId();
+				layers.get(layer)[x+2][y+3] = Tile.stumpTree15Tile.getId();
+				layers.get(layer)[x+3][y+3] = Tile.stumpTree16Tile.getId();
 			}
 		}
 		
 		//making tree
-		if(layers.get(layer)[x][y] == 51)
+		if(layers.get(layer)[x][y] == Tile.tree1Tile.getId())
 		{
 			//so it doesnt crash when going off board
 			if((x>=1)&&(x+6<layers.get(layer)[x].length)&&(y+9<layers.get(layer).length))
 			{
-				layers.get(layer)[x][y] = 51;
-				layers.get(layer)[x+1][y] = 52;
-				layers.get(layer)[x+2][y] = 53;
-				layers.get(layer)[x+3][y] = 54;
-				layers.get(layer)[x+4][y] = 55;
-				layers.get(layer)[x+5][y] = 56;
-				layers.get(layer)[x-1][y+1] = 57;
-				layers.get(layer)[x][y+1] = 58;
-				layers.get(layer)[x+1][y+1] = 59;
-				layers.get(layer)[x+2][y+1] = 60;
-				layers.get(layer)[x+3][y+1] = 61;
-				layers.get(layer)[x+4][y+1] = 62;
-				layers.get(layer)[x+5][y+1] = 63;
-				layers.get(layer)[x+6][y+1] = 64;
-				layers.get(layer)[x-1][y+2] = 65;
-				layers.get(layer)[x][y+2] = 66;
-				layers.get(layer)[x+1][y+2] = 67;
-				layers.get(layer)[x+2][y+2] = 68;
-				layers.get(layer)[x+3][y+2] = 69;
-				layers.get(layer)[x+4][y+2] = 70;
-				layers.get(layer)[x+5][y+2] = 71;
-				layers.get(layer)[x+6][y+2] = 72;
-				layers.get(layer)[x-1][y+3] = 73;
-				layers.get(layer)[x][y+3] = 74;
-				layers.get(layer)[x+1][y+3] = 75;
-				layers.get(layer)[x+2][y+3] = 76;
-				layers.get(layer)[x+3][y+3] = 77;
-				layers.get(layer)[x+4][y+3] = 78;
-				layers.get(layer)[x+5][y+3] = 79;
-				layers.get(layer)[x+6][y+3] = 80;
-				layers.get(layer)[x-1][y+4] = 81;
-				layers.get(layer)[x][y+4] = 82;
-				layers.get(layer)[x+1][y+4] = 83;
-				layers.get(layer)[x+2][y+4] = 84;
-				layers.get(layer)[x+3][y+4] = 85;
-				layers.get(layer)[x+4][y+4] = 86;
-				layers.get(layer)[x+5][y+4] = 87;
-				layers.get(layer)[x+6][y+4] = 88;
-				layers.get(layer)[x-1][y+5] = 89;
-				layers.get(layer)[x][y+5] = 90;
-				layers.get(layer)[x+1][y+5] = 91;
-				layers.get(layer)[x+2][y+5] = 92;
-				layers.get(layer)[x+3][y+5] = 93;
-				layers.get(layer)[x+4][y+5] = 94;
-				layers.get(layer)[x+5][y+5] = 95;
-				layers.get(layer)[x+6][y+5] = 96;
-				layers.get(layer)[x-1][y+6] = 97;
-				layers.get(layer)[x][y+6] = 98;
-				layers.get(layer)[x+1][y+6] = 99;
-				layers.get(layer)[x+2][y+6] = 100;
-				layers.get(layer)[x+3][y+6] = 101;
-				layers.get(layer)[x+4][y+6] = 102;
-				layers.get(layer)[x+5][y+6] = 103;
-				layers.get(layer)[x+6][y+6] = 104;
-				layers.get(layer)[x-1][y+7] = 105;
-				layers.get(layer)[x][y+7] = 106;
-				layers.get(layer)[x+1][y+7] = 107;
-				layers.get(layer)[x+2][y+7] = 108;
-				layers.get(layer)[x+3][y+7] = 109;
-				layers.get(layer)[x+4][y+7] = 110;
-				layers.get(layer)[x+5][y+7] = 111;
-				layers.get(layer)[x+6][y+7] = 112;
-				layers.get(layer)[x][y+8] = 113;
-				layers.get(layer)[x+1][y+8] = 114;
-				layers.get(layer)[x+2][y+8] = 115;
-				layers.get(layer)[x+3][y+8] = 116;
-				layers.get(layer)[x+4][y+8] = 117;
-				layers.get(layer)[x+5][y+8] = 118;
-				layers.get(layer)[x+1][y+9] = 119;
-				layers.get(layer)[x+2][y+9] = 120;
-				layers.get(layer)[x+3][y+9] = 121;
-				layers.get(layer)[x+4][y+9] = 122;
+				layers.get(layer)[x][y] = Tile.tree1Tile.getId();
+				layers.get(layer)[x+1][y] = Tile.tree2Tile.getId();
+				layers.get(layer)[x+2][y] = Tile.tree3Tile.getId();
+				layers.get(layer)[x+3][y] = Tile.tree4Tile.getId();
+				layers.get(layer)[x+4][y] = Tile.tree5Tile.getId();
+				layers.get(layer)[x+5][y] = Tile.tree6Tile.getId();
+				layers.get(layer)[x-1][y+1] = Tile.tree7Tile.getId();
+				layers.get(layer)[x][y+1] = Tile.tree8Tile.getId();
+				layers.get(layer)[x+1][y+1] = Tile.tree9Tile.getId();
+				layers.get(layer)[x+2][y+1] = Tile.tree10Tile.getId();
+				layers.get(layer)[x+3][y+1] = Tile.tree11Tile.getId();
+				layers.get(layer)[x+4][y+1] = Tile.tree12Tile.getId();
+				layers.get(layer)[x+5][y+1] = Tile.tree13Tile.getId();
+				layers.get(layer)[x+6][y+1] = Tile.tree14Tile.getId();
+				layers.get(layer)[x-1][y+2] = Tile.tree15Tile.getId();
+				layers.get(layer)[x][y+2] = Tile.tree16Tile.getId();
+				layers.get(layer)[x+1][y+2] = Tile.tree17Tile.getId();
+				layers.get(layer)[x+2][y+2] = Tile.tree18Tile.getId();
+				layers.get(layer)[x+3][y+2] = Tile.tree19Tile.getId();
+				layers.get(layer)[x+4][y+2] = Tile.tree20Tile.getId();
+				layers.get(layer)[x+5][y+2] = Tile.tree21Tile.getId();
+				layers.get(layer)[x+6][y+2] = Tile.tree22Tile.getId();
+				layers.get(layer)[x-1][y+3] = Tile.tree23Tile.getId();
+				layers.get(layer)[x][y+3] = Tile.tree24Tile.getId();
+				layers.get(layer)[x+1][y+3] = Tile.tree25Tile.getId();
+				layers.get(layer)[x+2][y+3] = Tile.tree26Tile.getId();
+				layers.get(layer)[x+3][y+3] = Tile.tree27Tile.getId();
+				layers.get(layer)[x+4][y+3] = Tile.tree28Tile.getId();
+				layers.get(layer)[x+5][y+3] = Tile.tree29Tile.getId();
+				layers.get(layer)[x+6][y+3] = Tile.tree30Tile.getId();
+				layers.get(layer)[x-1][y+4] = Tile.tree31Tile.getId();
+				layers.get(layer)[x][y+4] = Tile.tree32Tile.getId();
+				layers.get(layer)[x+1][y+4] = Tile.tree33Tile.getId();
+				layers.get(layer)[x+2][y+4] = Tile.tree34Tile.getId();
+				layers.get(layer)[x+3][y+4] = Tile.tree35Tile.getId();
+				layers.get(layer)[x+4][y+4] = Tile.tree36Tile.getId();
+				layers.get(layer)[x+5][y+4] = Tile.tree37Tile.getId();
+				layers.get(layer)[x+6][y+4] = Tile.tree38Tile.getId();
+				layers.get(layer)[x-1][y+5] = Tile.tree39Tile.getId();
+				layers.get(layer)[x][y+5] = Tile.tree40Tile.getId();
+				layers.get(layer)[x+1][y+5] = Tile.tree41Tile.getId();
+				layers.get(layer)[x+2][y+5] = Tile.tree42Tile.getId();
+				layers.get(layer)[x+3][y+5] = Tile.tree43Tile.getId();
+				layers.get(layer)[x+4][y+5] = Tile.tree44Tile.getId();
+				layers.get(layer)[x+5][y+5] = Tile.tree45Tile.getId();
+				layers.get(layer)[x+6][y+5] = Tile.tree46Tile.getId();
+				layers.get(layer)[x-1][y+6] = Tile.tree47Tile.getId();
+				layers.get(layer)[x][y+6] = Tile.tree48Tile.getId();
+				layers.get(layer)[x+1][y+6] = Tile.tree49Tile.getId();
+				layers.get(layer)[x+2][y+6] = Tile.tree50Tile.getId();
+				layers.get(layer)[x+3][y+6] = Tile.tree51Tile.getId();
+				layers.get(layer)[x+4][y+6] = Tile.tree52Tile.getId();
+				layers.get(layer)[x+5][y+6] = Tile.tree53Tile.getId();
+				layers.get(layer)[x+6][y+6] = Tile.tree54Tile.getId();
+				layers.get(layer)[x-1][y+7] = Tile.tree55Tile.getId();
+				layers.get(layer)[x][y+7] = Tile.tree56Tile.getId();
+				layers.get(layer)[x+1][y+7] = Tile.tree57Tile.getId();
+				layers.get(layer)[x+2][y+7] = Tile.tree58Tile.getId();
+				layers.get(layer)[x+3][y+7] = Tile.tree59Tile.getId();
+				layers.get(layer)[x+4][y+7] = Tile.tree60Tile.getId();
+				layers.get(layer)[x+5][y+7] = Tile.tree61Tile.getId();
+				layers.get(layer)[x+6][y+7] = Tile.tree62Tile.getId();
+				layers.get(layer)[x][y+8] = Tile.tree63Tile.getId();
+				layers.get(layer)[x+1][y+8] = Tile.tree64Tile.getId();
+				layers.get(layer)[x+2][y+8] = Tile.tree65Tile.getId();
+				layers.get(layer)[x+3][y+8] = Tile.tree66Tile.getId();
+				layers.get(layer)[x+4][y+8] = Tile.tree67Tile.getId();
+				layers.get(layer)[x+5][y+8] = Tile.tree68Tile.getId();
+				layers.get(layer)[x+1][y+9] = Tile.tree69Tile.getId();
+				layers.get(layer)[x+2][y+9] = Tile.tree70Tile.getId();
+				layers.get(layer)[x+3][y+9] = Tile.tree71Tile.getId();
+				layers.get(layer)[x+4][y+9] = Tile.tree72Tile.getId();
 			}
 		}
 		

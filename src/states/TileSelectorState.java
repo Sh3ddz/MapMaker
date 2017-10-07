@@ -56,7 +56,7 @@ public class TileSelectorState extends State
 		
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 1920, 1080);
-
+		
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
 			if((Tile.tiles[i] != null) && (i < 15 || i >  122))
@@ -148,12 +148,21 @@ public class TileSelectorState extends State
 			g.drawImage(Assets.fenceFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*2, Tile.TILEHEIGHT*2, null);
 			yRender = tempYRender;
 		}
+		if(i == 149)
+		{
+			xRender = 400;
+			int tempYRender = yRender;
+			yRender = 496;
+			g.drawImage(Assets.stumpTreeFull, xRender+xOffset, yRender+yOffset, Tile.TILEWIDTH*4, Tile.TILEHEIGHT*4, null);
+			yRender = tempYRender;
+		}
 	}
 	
 	public void selectTile()
 	{
 		int xSelect = 0;
 		int ySelect = 32;
+		
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
 			if((Tile.tiles[i] != null) && (i < 15 || i >  122))
@@ -180,7 +189,7 @@ public class TileSelectorState extends State
 				}
 			}
 			//selecting larger tiles
-			if((i == 15) || (i == 19) || (i == 23) || (i == 27) || (i == 31) || (i == 35)  || (i == 51) || (i == 125))
+			if((i == 15) || (i == 19) || (i == 23) || (i == 27) || (i == 31) || (i == 35)  || (i == 51) || (i == 125) || (i == 149))
 				selectLargerTiles(xSelect, ySelect, i);
 		}
 	}
@@ -236,6 +245,12 @@ public class TileSelectorState extends State
 			xSelect = 160;
 			ySelect = 464;
 			addNum= 32;
+		}
+		if(i == 149)
+		{
+			xSelect = 400;
+			ySelect = 496;
+			addNum = 64;
 		}
 		
 		if(((handler.getKeyManager().cX > xSelect+xOffset) && (handler.getKeyManager().cX < xSelect + addNum + xOffset)) && ((handler.getKeyManager().cY > ySelect+yOffset) && (handler.getKeyManager().cY < ySelect + addNum + yOffset)))

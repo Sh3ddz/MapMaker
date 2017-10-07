@@ -85,17 +85,19 @@ public class Sound
 	
 	public static void muteMusic()
 	{
+		FloatControl gainControl = (FloatControl) Sound.music.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(-80); 
 		//if it's not muted, mute it.
 		if(!Sound.musicMuted)
 		{
 			Sound.musicMuted = true;
-			FloatControl gainControl = (FloatControl) Sound.music.getControl(FloatControl.Type.MASTER_GAIN);
+			Sound.musicVolume = 0;
 			gainControl.setValue(-80); 
 		}
 		else //if it is muted, then unmute it
 		{
 			Sound.musicMuted = false;
-			FloatControl gainControl = (FloatControl) Sound.music.getControl(FloatControl.Type.MASTER_GAIN);
+			Sound.musicVolume = 50 + Sound.musicVolumeChange;
 			gainControl.setValue(Sound.musicVolumeChange); 
 		}
 	}
@@ -127,6 +129,7 @@ public class Sound
 			music.loop(Clip.LOOP_CONTINUOUSLY);
 	        music.start(); 
 	        Sound.setMusicVolume(Sound.musicVolumeChange);
+	        fixMusicVolume();
 	        Sound.currentSongFileName = url;
 	        if(url.equals("ToT.wav"))
 	        	Sound.currentSongName = "Maplestory - Temple of Time";
@@ -134,6 +137,7 @@ public class Sound
 	        	Sound.currentSongName = "Koe no Katachi -frc";
 	        if(url.equals("pinata.wav"))
 				Sound.currentSongName = "Japanese Wallpaper & Montgomery - Piñata (Kultur Remix)";
+
 		}
 		catch(Exception e)
 		{
@@ -162,6 +166,15 @@ public class Sound
 		//stopping current song and playing the next one.
 		stopMusic();
 		playMusic(nextSong);
+	}
+	
+	private static void fixMusicVolume()
+	{
+		if(Sound.musicMuted && Sound.musicVolume > 0)
+		{
+			Sound.musicMuted = false;
+			Sound.muteMusic();
+		}
 	}
 	
 	public static void stopMusic()
