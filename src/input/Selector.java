@@ -2,6 +2,8 @@ package input;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Stack;
 
 import gfx.Assets;
 import gfx.Sound;
@@ -19,6 +21,9 @@ public class Selector
 	private int currentLayer;
 	public static int width, height;
 	public int oldZoom;
+	private ArrayList<Change> currentChangeList; //changes made to the map
+	private Stack<ArrayList<Change>> allChangesStack; //stack of all the changes made
+	private Stack<ArrayList<Change>> allChangesUndone; //stack of all the UNDO's
 	
 	public Selector(Handler handler, float x, float y)
 	{
@@ -29,6 +34,9 @@ public class Selector
 		Selector.width = Tile.TILEWIDTH;
 		Selector.height = Tile.TILEHEIGHT;
 		this.newTileId = 0; // what the tile being clicked on will change to
+		this.currentChangeList = new ArrayList<Change>();
+		this.allChangesStack = new Stack<ArrayList<Change>>();
+		this.allChangesUndone = new Stack<ArrayList<Change>>();
 	}
 	
 	public float getX()
@@ -101,6 +109,12 @@ public class Selector
 	//changing the tile on a specific location to a new tile.
 	private void placeTileOnLocation(int x, int y, int tileId)
 	{
+		//adding the change to the list.
+		Change c = new Change(handler.getWorld(), tileX, tileY, currentLayer, getTileOnLocation().getId(), newTileId);
+		if(currentChangeList == null)
+			currentChangeList = new ArrayList<Change>();
+		currentChangeList.add(c);
+		//setting the tile change
 		handler.getWorld().setTile(x, y, currentLayer, tileId);
 	}
 	
@@ -108,6 +122,7 @@ public class Selector
 	{
 		if(State.getState() == handler.getMapMaker().mapMakerState)
 		{
+			//Moving the camera
 			//WASD KEYS
 			if(handler.getKeyManager().up && !handler.getKeyManager().down)
 				handler.getMapMakerCamera().moveByTile(0,-1);
@@ -128,6 +143,22 @@ public class Selector
 			if(handler.getKeyManager().rightArrow && !handler.getKeyManager().leftArrow)		
 				handler.getMapMakerCamera().moveByTile(1,0);
 		
+			
+			//RIGHT CLICKING to move camera
+			if(handler.getKeyManager().rightClick)
+			{
+				int xMove = 0;
+				int yMove = 0;
+				if(handler.getKeyManager().dragging)
+				{
+					xMove = handler.getKeyManager().cX - handler.getKeyManager().dX;
+					yMove = handler.getKeyManager().cY - handler.getKeyManager().dY;
+					handler.getKeyManager().cX = handler.getKeyManager().dX;
+					handler.getKeyManager().cY = handler.getKeyManager().dY;
+				}
+				handler.getMapMakerCamera().move(xMove, yMove);
+			}
+			
 			//ZOOMING(in / out)
 			if(handler.getKeyManager().mouseWheelUp && !handler.getKeyManager().mouseWheelDown)
 			{
@@ -183,6 +214,20 @@ public class Selector
 					handler.getKeyManager().highlight = false;
 				}
 			}
+			//grid view
+			if(handler.getKeyManager().gridView)
+			{
+				if(!handler.getWorld().getGridView())
+				{
+					handler.getWorld().setGridView(true);
+					handler.getKeyManager().gridView = false;
+				}
+				else
+				{
+					handler.getWorld().setGridView(false);
+					handler.getKeyManager().gridView = false;
+				}
+			}
 			//BASE LAYER
 			if(handler.getKeyManager().layerBase && !handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
 			{
@@ -196,8 +241,17 @@ public class Selector
 			{
 				if(this.newTileId != getTileOnLocation().getId()) //so it doesnt place the same tile thats already on the loc
 				{	
+					//placing the tile
 					placeTileOnLocation(tileX, tileY, newTileId);
 					Sound.playSfx("placeTile.wav");
+				}
+			}
+			else
+			{
+				if(currentChangeList != null && currentChangeList.size() != 0) //if the list isnt empty, add it to the stack and then reset it.
+				{
+					allChangesStack.push(currentChangeList);
+					currentChangeList = null;
 				}
 			}
 			//RIGHT CLICKING ON TILES, gets current tile
@@ -209,6 +263,39 @@ public class Selector
 			if(handler.getKeyManager().middleClick)
 			{
 				 this.setNewTileId(getTileOnLocation().getId());
+			}
+			
+			//CHANGES (UNDOING AND REDOING)
+			//UNDOING the changes
+			if(handler.getKeyManager().ctrl && handler.getKeyManager().z)
+			{
+				if(allChangesStack.size() != 0)
+				{
+					ArrayList<Change> poppedList = allChangesStack.pop();
+					
+					for(int i = 0; i < poppedList.size(); i++)
+					{
+						poppedList.get(i).undo();
+					}
+					allChangesUndone.push(poppedList);//pushing the changes undone onto the stack.
+				}
+				handler.getKeyManager().z = false;
+			}
+
+			//REDOING the changes
+			if(handler.getKeyManager().ctrl && handler.getKeyManager().y)
+			{
+				if(allChangesUndone.size() != 0)
+				{
+					ArrayList<Change> redoList = allChangesUndone.pop();
+					
+					for(int i = 0; i < redoList.size(); i++)
+					{
+						redoList.get(i).redo();
+					}
+					allChangesStack.push(redoList);//pushing the changes re-done back onto the stack
+				}
+				handler.getKeyManager().y = false;
 			}
 		}
 		
@@ -297,5 +384,10 @@ public class Selector
 				g.fillRect(0, 0, 32, 32);
 				g.drawImage(Tile.tiles[newTileId].getTexture(), 8, 8, 16, 16, null);
 			}
+		if(State.getState() == handler.getMapMaker().mapMakerState)
+		{
+			g.setColor(Color.CYAN);
+			g.drawString("LAYER:"+this.getCurrentLayer(), 0, 10);
+		}
 	}
 }

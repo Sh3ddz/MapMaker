@@ -13,8 +13,8 @@ import javax.swing.SwingUtilities;
 public class KeyManager implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
 	private boolean[] keys;
-	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, highlight, openTileSelection, layerUp, layerDown, layerBase, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging;
-	public int mX,mY,cX,cY;
+	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, highlight, gridView, openTileSelection, layerUp, layerDown, layerBase, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging, ctrl, z, y;
+	public int mX,mY,cX,cY,dX,dY;
 	
 	public KeyManager()
 	{
@@ -32,6 +32,7 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		downArrow = keys[KeyEvent.VK_DOWN];
 		leftArrow = keys[KeyEvent.VK_LEFT];
 		rightArrow = keys[KeyEvent.VK_RIGHT];
+		ctrl = keys[KeyEvent.VK_CONTROL];
 	}
 
 	@Override
@@ -51,6 +52,12 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 			openMenu = true;
 		if(e.getKeyCode() == KeyEvent.VK_H)
 			highlight = true;
+		if(e.getKeyCode() == KeyEvent.VK_G)
+			gridView = true;
+		if(e.getKeyCode() == KeyEvent.VK_Z)
+			z = true;
+		if(e.getKeyCode() == KeyEvent.VK_Y)
+			y = true;
 	}
 
 	@Override
@@ -70,6 +77,12 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 			openMenu = false;
 		if(e.getKeyCode() == KeyEvent.VK_H)
 			highlight = false;
+		if(e.getKeyCode() == KeyEvent.VK_G)
+			gridView = false;
+		if(e.getKeyCode() == KeyEvent.VK_Z)
+			z = false;
+		if(e.getKeyCode() == KeyEvent.VK_Y)
+			y = false;
 	}
 
 	@Override
@@ -81,9 +94,11 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-	    mY=e.getY();
-	    mX=e.getX();
 	    dragging = true;
+		dY = e.getY();
+	    dX = e.getX();
+		mY = e.getY();
+		mX = e.getX();
 	}
 
 	@Override
@@ -122,6 +137,9 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 		if(SwingUtilities.isRightMouseButton(e))
 		{
 			rightClick = true;
+			//for right click camera movements
+			cY = e.getY();
+			cX = e.getX();
 		}
 		if(SwingUtilities.isMiddleMouseButton(e))
 		{

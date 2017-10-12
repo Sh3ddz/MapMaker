@@ -2,6 +2,7 @@ package display;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -28,7 +29,7 @@ public class Display
 		frame = new JFrame(title);
 		frame.setSize(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
@@ -50,5 +51,10 @@ public class Display
 	public JFrame getFrame()
 	{
 		return frame;
+	}
+	
+	public void setIcon(BufferedImage image)
+	{
+	      frame.setIconImage(image);
 	}
 }

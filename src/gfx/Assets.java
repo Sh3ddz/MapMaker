@@ -30,7 +30,7 @@ public class Assets
 							    house33, house34, house35, house36, house37, house38, house39, house40,
 							    house41, house42, house43, house44, house45, house46, house47, house48,
 							    house49, house50, house51, house52, house53, house54, house55, houseShadow1, houseShadow2, houseShadow3,
-								selector, muteSound, nextSong,
+								selector, muteSound, nextSong, grid,
 								hedge1, hedge2, hedge3, hedge4, hedge5, hedge6, hedge7, hedge8, 
 								hedge9, hedge10, hedge11,
 								cliff1, cliff2, cliff3, cliff4, cliff5, cliff6, cliff7, cliff8, cliff9, cliff10,
@@ -54,6 +54,7 @@ public class Assets
 		playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
 		playerBody = sheet.crop(WIDTH*2, HEIGHT*30, WIDTH*2, HEIGHT*2);
 		selector = sheet.crop(0, HEIGHT*27, WIDTH, HEIGHT);
+		grid = sheet.crop(0, HEIGHT*26, WIDTH, HEIGHT);
 		muteSound = sheet.crop(WIDTH, HEIGHT*27, WIDTH, HEIGHT);
 		nextSong = sheet.crop(WIDTH*2, HEIGHT*27, WIDTH, HEIGHT);
 		

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import gfx.Assets;
 import main.Handler;
 import states.State;
 import tiles.Tile;
@@ -32,6 +33,8 @@ public class World
 	private int highlightLayer = 0;
 	private boolean highlight = false;
 	private Color highlightColor = new Color(255,255,0,100);
+	
+	private boolean gridView = true;
 
 	public World(Handler handler, String path)
 	{
@@ -109,6 +112,15 @@ public class World
 		this.highlightLayer = h;
 	}
 	
+	public boolean getGridView()
+	{
+		return this.gridView;
+	}
+	public void setGridView(boolean g)
+	{
+		this.gridView = g;
+	}
+	
 	private void loadWorld(String path)
 	{
 		String file = Utils.loadFileAsString(path);
@@ -135,7 +147,12 @@ public class World
 			{
 				for(int x = 0; x < width; x++)
 				{
-					if(layers.get(l)[x][y]  == 0)
+					if(token > tokens.length)
+					{
+						layers.get(l)[x][y] = 999; //setting it to air if the file isn't formatted right.
+						continue;
+					}
+					if(layers.get(l)[x][y]  == 0 && token < tokens.length)//checking if token is less than the length of tokens so it doesnt throw an OOB exception and crash. (mainly for bad world files).
 						layers.get(l)[x][y] = Utils.parseInt(tokens[token]);
 					token++;
 				}
@@ -666,17 +683,31 @@ public class World
 			for(int y = yStart; y < yEnd; y++)
 			{
 				for(int x = xStart; x < xEnd; x++)
-				{
+				{				
+					//rendering tiles.
 					if(!getTile(x,y,layer).isAir())//dont render in air tiles, saves a ton of fps.
 						getTile(x, y, layer).render(g, (int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset()));
-					if(layer==highlightLayer)
+					
+					//rendering highlight
+					if(layer==highlightLayer && highlight)
 					{
-						if(highlight && !getTile(x,y,layer).isAir()) //if its highlighting and the tile isnt air.
+						if(!getTile(x,y,layer).isAir()) //if its highlighting and the tile isnt air.
 						{
 							g.setColor(highlightColor);
-							g.fillRect((int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset()), Tile.TILEWIDTH, Tile.TILEHEIGHT);
+							g.fillRect((int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset())+1, (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset())+1, Tile.TILEWIDTH-1, Tile.TILEHEIGHT-1);
 						}
 					}
+				}
+			}
+		}
+		//rendering in the grid.
+		if(gridView)
+		{
+			for(int y = yStart; y < yEnd; y++)
+			{
+				for(int x = xStart; x < xEnd; x++)
+				{
+					g.drawImage(Assets.grid, (int)(x * Tile.TILEWIDTH - handler.getMapMakerCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - handler.getMapMakerCamera().getyOffset()), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
 				}
 			}
 		}

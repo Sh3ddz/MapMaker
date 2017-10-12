@@ -282,6 +282,7 @@ public class MenuState extends State
 	    //Showing the controls
 	    g.setFont(menuFont);
 		g.setColor(Color.BLUE);
+	    g.drawString("Right Click Drag OR", 20, 35);
 	    g.drawString("WASD/Arrow Keys", 25, 60);
 	    g.drawString("Escape", 125, 85);
 	    g.drawString("E", 180, 110);
@@ -293,6 +294,8 @@ public class MenuState extends State
 	    g.drawString("= OR +", 125, 260);
 	    g.drawString("- OR _", 125, 285);
 	    g.drawString("H", 180, 310);
+	    g.drawString("G", 180, 335);
+
 
 		g.setColor(Color.YELLOW);
 	    g.drawString("| Move the camera", 200, 60);
@@ -306,6 +309,7 @@ public class MenuState extends State
 	    g.drawString("| Move up a layer", 200, 260);
 	    g.drawString("| Move down a layer", 200, 285);
 	    g.drawString("| Highlight all tiles on the layer (can cause lag)", 200, 310);
+	    g.drawString("| Toggles grid view (displays a grid for tiles)", 200, 335);
 
 
 	    //BACK button

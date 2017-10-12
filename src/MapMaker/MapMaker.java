@@ -1,6 +1,5 @@
 package MapMaker;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
@@ -70,7 +69,7 @@ public class MapMaker implements Runnable
 	private void init()
 	{
 		this.loading = true;
-				
+		
 		this.display = new Display(title, width, height);
 		//adding keyManager. / input listeners to the frame and canvas.
 		display.getFrame().addKeyListener(keyManager);
@@ -83,6 +82,8 @@ public class MapMaker implements Runnable
 
 		Assets.init();
 		Sound.init();
+		
+		display.setIcon(Assets.bushFull); //setting the app icon.
 		
 		Sound.playMusic(Sound.songs[0]);
 
@@ -122,13 +123,11 @@ public class MapMaker implements Runnable
 		//Clear Screen
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
+		width = display.getFrame().getWidth();
+	    height = display.getFrame().getHeight();
+
 		if(State.getState() != null)
 			State.getState().render(g);
-		if(State.getState() == mapMakerState)
-		{
-			g.setColor(Color.RED);
-			g.drawString("LAYER:"+selector.getCurrentLayer(), 0, 10);
-		}
 		//End Drawing!
 		bs.show();
 		g.dispose();
@@ -136,7 +135,6 @@ public class MapMaker implements Runnable
 	
 	public void run()
 	{
-		
 		init();
 		
 		int tps = 60;
