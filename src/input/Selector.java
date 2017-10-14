@@ -79,6 +79,13 @@ public class Selector
 		this.newTileId = id;
 	}
 	
+	public void addChange(Change c)
+	{
+		if(currentChangeList == null)
+			currentChangeList = new ArrayList<Change>();
+		this.currentChangeList.add(c);
+	}
+	
 	public void updatePosition()
 	{
 		if(State.getState() == handler.getMapMaker().mapMakerState)
@@ -109,11 +116,6 @@ public class Selector
 	//changing the tile on a specific location to a new tile.
 	private void placeTileOnLocation(int x, int y, int tileId)
 	{
-		//adding the change to the list.
-		Change c = new Change(handler.getWorld(), tileX, tileY, currentLayer, getTileOnLocation().getId(), newTileId);
-		if(currentChangeList == null)
-			currentChangeList = new ArrayList<Change>();
-		currentChangeList.add(c);
 		//setting the tile change
 		handler.getWorld().setTile(x, y, currentLayer, tileId);
 	}
@@ -269,31 +271,30 @@ public class Selector
 			//UNDOING the changes
 			if(handler.getKeyManager().ctrl && handler.getKeyManager().z)
 			{
-				if(allChangesStack.size() != 0)
+				if(allChangesStack.size() != 0) //if the stack isnt empty
 				{
-					ArrayList<Change> poppedList = allChangesStack.pop();
+					ArrayList<Change> poppedList = allChangesStack.pop(); //pop the top change list from the stack
 					
 					for(int i = 0; i < poppedList.size(); i++)
 					{
-						poppedList.get(i).undo();
+						poppedList.get(i).undo(); //undo the change
 					}
-					allChangesUndone.push(poppedList);//pushing the changes undone onto the stack.
+					allChangesUndone.push(poppedList);//pushing the changes undone onto the undone stack.
 				}
 				handler.getKeyManager().z = false;
 			}
-
 			//REDOING the changes
 			if(handler.getKeyManager().ctrl && handler.getKeyManager().y)
 			{
-				if(allChangesUndone.size() != 0)
+				if(allChangesUndone.size() != 0) //if the stack isnt empty
 				{
-					ArrayList<Change> redoList = allChangesUndone.pop();
+					ArrayList<Change> redoList = allChangesUndone.pop(); //pop the top redo list from the stack
 					
 					for(int i = 0; i < redoList.size(); i++)
 					{
-						redoList.get(i).redo();
+						redoList.get(i).redo(); //redo the change
 					}
-					allChangesStack.push(redoList);//pushing the changes re-done back onto the stack
+					allChangesStack.push(redoList);//pushing the changes re-done back onto the all changes stack
 				}
 				handler.getKeyManager().y = false;
 			}

@@ -23,12 +23,12 @@ public class Change//what change was made to the world (used for undo-ing)
 	
 	public void undo()
 	{
-		world.setTile(this.xTilePos, this.yTilePos, this.layer, this.oldTileId);
+		world.setTileNoChange(this.xTilePos, this.yTilePos, this.layer, this.oldTileId);
 	}
 	
 	public void redo()
 	{
-		world.setTile(this.xTilePos, this.yTilePos, this.layer, this.newTileId);
+		world.setTileNoChange(this.xTilePos, this.yTilePos, this.layer, this.newTileId);
 	}
 	
 	public String toString()
