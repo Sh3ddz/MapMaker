@@ -1,6 +1,11 @@
 package gfx;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+
+import tiles.Tile;
 
 public class Assets
 {
@@ -43,7 +48,7 @@ public class Assets
 								treeFull, stumpFull, stumpTreeFull, bushFull, rockFull, strucFull, tallgrassFull, signFull, fenceFull, mushroomGroupFull;
 	//SPRITESHEETS
 	//
-	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/textures/loading.png");
+	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/usefulimages/loading.png");
 	//FOR Graal Online Classic tiles:
 	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/tileSpriteSheet.png"));
 	//FOR A Link To The Past tiles:
@@ -410,5 +415,29 @@ public class Assets
 	    signFull = sheet.crop(WIDTH*8, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	    fenceFull = sheet.crop(WIDTH*12, HEIGHT*3, WIDTH*2, HEIGHT*2);
 	    mushroomGroupFull = sheet.crop(WIDTH*11, WIDTH, WIDTH*2, HEIGHT*2);
+	}
+	
+	public static void loadTexturePack()
+	{
+		//creating the filechooser and setting current directory.
+		JFileChooser fileChooser = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/textures");
+		fileChooser.setCurrentDirectory(workingDirectory);
+		
+		//getting the path of the new world file and then loading it.
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+		 	File file = fileChooser.getSelectedFile();
+		 	String path = "/resources/textures/"+file.getName();
+			setSpriteSheet(path);
+			System.out.println("Loaded "+path+" as a texture pack.");
+		}
+	}
+	
+	public static void setSpriteSheet(String path)//changes the spritesheet
+	{
+		Assets.sheet = new SpriteSheet(ImageLoader.loadImage(path));
+		Assets.init(); //re-loading the new textures.
+		Tile.updateTextures();
 	}
 }

@@ -137,6 +137,7 @@ public class World
 	
 	private void loadWorld(String path)
 	{
+		handler.getMapMaker().displayLoadingScreen(); //displaying the loading screen
 		String file = Utils.loadFileAsString(path);
 		String[] tokens = file.split("\\s+");
 		width = Utils.parseInt(tokens[0]);
@@ -144,8 +145,7 @@ public class World
 		spawnX = Utils.parseInt(tokens[2]);
 		spawnY = Utils.parseInt(tokens[3]);
 		
-		handler.getMapMakerCamera().setxOffset(spawnX);
-		handler.getMapMakerCamera().setyOffset(spawnY);
+		handler.getMapMakerCamera().setPosition(spawnX, spawnY);
 
 		tilesLayer0 = new int[width][height];
 		tilesLayer1 = new int[width][height];
@@ -260,7 +260,7 @@ public class World
 		 	File file = fileChooser.getSelectedFile();
 		 	String path = "src/resources/worlds/"+file.getName();
 			loadWorld(path);
-			System.out.println("Loaded "+path);
+			System.out.println("Loaded "+path+" as a world.");
 		}
 	}
 	
@@ -287,8 +287,12 @@ public class World
 	
 	public void createNewWorld(int width, int height, int generationOption)
 	{
+		handler.getMapMaker().displayLoadingScreen(); //displaying the loading screen
 		this.width = width;
 		this.height = height;
+		this.spawnX = 0;
+		this.spawnY = 0;
+		handler.getMapMakerCamera().setPosition(spawnX, spawnY);
 		tilesLayer0 = new int[width][height];
 		tilesLayer1 = new int[width][height];
 		tilesLayer2 = new int[width][height];

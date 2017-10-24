@@ -79,6 +79,8 @@ public class MapMaker implements Runnable
 		display.getCanvas().addMouseListener(keyManager);
 		display.getCanvas().addMouseMotionListener(keyManager);
 		display.getCanvas().addMouseWheelListener(keyManager);
+		
+		displayLoadingScreen();
 
 		Assets.init();
 		Sound.init();
@@ -128,6 +130,27 @@ public class MapMaker implements Runnable
 
 		if(State.getState() != null)
 			State.getState().render(g);
+		
+		//End Drawing!
+		bs.show();
+		g.dispose();
+	}
+	
+	public void displayLoadingScreen()
+	{
+		bs = display.getCanvas().getBufferStrategy();
+		if(bs == null)
+		{
+			display.getCanvas().createBufferStrategy(3); //original is 3
+			return;
+		}
+		g = bs.getDrawGraphics();
+		//Clear Screen
+		g.clearRect(0, 0, width, height);
+		//Draw Here!
+		width = display.getFrame().getWidth()-16;
+	    height = display.getFrame().getHeight()-39;
+	    g.drawImage(Assets.loadingScreen,0,0,width,height,null);
 		
 		//End Drawing!
 		bs.show();

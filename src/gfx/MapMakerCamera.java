@@ -25,8 +25,14 @@ public class MapMakerCamera
 	
 	public void move(float xAmt, float yAmt)
 	{
-		xOffset += xAmt;
-		yOffset += yAmt;
+		this.xOffset += xAmt;
+		this.yOffset += yAmt;
+	}
+	
+	public void setPosition(float x, float y)
+	{
+		this.xOffset = x;
+		this.yOffset = y;
 	}
 
 	public float getxOffset() 
