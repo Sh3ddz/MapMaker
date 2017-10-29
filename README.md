@@ -3,8 +3,11 @@
 
 video of the program being used: https://www.youtube.com/watch?v=6Gk1e-gSS9k
 
-**DISCLAIMER: -The assets used for the tiles are the same as the ones used in the game "Graal Online Classic" and "The Legend of Zelda: A 		 Link To The Past" 
-	      -The music used are also taken from different sources, I do not own any of the music used in this program.**
+**DISCLAIMER:**  
+
+-The assets used for the tiles are the same as the ones used in the game "Graal Online Classic" and "The Legend of Zelda: A 		 Link To The Past"  
+-The music used are also taken from different sources, I do not own any of the music used in this program.
+
 **This is a work in progress and no where near complete. I will update periodically**
 
 **TO DO:**
