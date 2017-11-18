@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 public class KeyManager implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
 	private boolean[] keys;
-	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, highlight, gridView, openTileSelection, layerUp, layerDown, layerBase, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging, ctrl, z, y;
+	public boolean up, down, left, right, shift, upArrow, downArrow, leftArrow, rightArrow, highlight, gridView, fillTool, openTileSelection, layerUp, layerDown, layerBase, openMenu, holding, leftClick, rightClick, middleClick, mouseWheelUp, mouseWheelDown, dragging, ctrl, z, y;
 	public int mX,mY,cX,cY,dX,dY;
 	
 	public KeyManager()
@@ -58,6 +58,8 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 			z = true;
 		if(e.getKeyCode() == KeyEvent.VK_Y)
 			y = true;
+		if(e.getKeyCode() == KeyEvent.VK_F)
+			fillTool = true;
 	}
 
 	@Override
@@ -83,6 +85,8 @@ public class KeyManager implements KeyListener, MouseListener, MouseMotionListen
 			z = false;
 		if(e.getKeyCode() == KeyEvent.VK_Y)
 			y = false;
+		if(e.getKeyCode() == KeyEvent.VK_F)
+			fillTool = false;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package states;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import gfx.Assets;
@@ -56,10 +57,10 @@ public class TileSelectorState extends State
 		
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, 1920, 1080);
-		
+
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
-			if((Tile.tiles[i] != null) && (i < 15 || i >  122))
+			if((Tile.tiles[i] != null) && (i < 15 || i >  122) && (i < 1000))
 			{				
 				//resetting each row so it doesnt go off screen
 				if(xRender > 600)
@@ -74,11 +75,43 @@ public class TileSelectorState extends State
 				}
 				xRender += 32;
 	
-				Tile.tiles[i].render(g, xRender+xOffset, yRender+yOffset);
+				if(!(yRender+yOffset < 0) && !(yRender+yOffset>360)) //only rendering tiles in view.
+				{
+					Tile.tiles[i].render(g, xRender+xOffset, yRender+yOffset);
+				}
 			}
-			renderLargerTiles(g, xRender, yRender, i);
-			selector.render(g);
+			if(!(yRender < 0) && !(yRender>260)) //only rendering tiles in view.
+			{
+				renderLargerTiles(g, xRender, yRender, i);
+			}
 		}
+		
+		g.setColor(Color.GREEN);
+		Font f = new Font(Font.SERIF,Font.PLAIN, 20);
+		g.setFont(f);
+		g.drawString("Imported Tiles", 270, 600+yOffset);
+		g.drawLine(handler.getMapMaker().getWidth()/2-64, 600+yOffset, handler.getMapMaker().getWidth()/2+64, 600+yOffset);
+		xRender = 0;
+		yRender = 640;
+		for(int i = 0; i < Tile.importedTiles.size(); i++)
+		{
+			if(Tile.importedTiles.get(i) != null)
+			{				
+				//resetting each row so it doesnt go off screen
+				if(xRender > 600)
+				{
+					xRender = 0;
+					yRender += 32;
+				}
+				xRender += 32;
+	
+				if(!(yRender+yOffset < 0) && !(yRender+yOffset>360)) //only rendering tiles in view.
+				{
+					Tile.importedTiles.get(i).render(g, xRender+xOffset, yRender+yOffset);
+				}
+			}
+		}
+		selector.render(g);
 	}
 	
 	public void renderLargerTiles(Graphics g, int xRender, int yRender, int i)
@@ -165,7 +198,7 @@ public class TileSelectorState extends State
 		
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
-			if((Tile.tiles[i] != null) && (i < 15 || i >  122))
+			if((Tile.tiles[i] != null) && (i < 15 || i >  122) && (i < 1000))
 			{
 				if(xSelect > 600)
 				{
@@ -191,6 +224,31 @@ public class TileSelectorState extends State
 			//selecting larger tiles
 			if((i == 15) || (i == 19) || (i == 23) || (i == 27) || (i == 31) || (i == 35)  || (i == 51) || (i == 125) || (i == 149))
 				selectLargerTiles(xSelect, ySelect, i);
+		}
+		
+		xSelect = 0;
+		ySelect = 640;
+
+		for(int i = 0; i < Tile.importedTiles.size(); i++)
+		{
+			if(Tile.importedTiles.get(i) != null)
+			{
+				if(xSelect > 600)
+				{
+					xSelect = 0;
+					ySelect += 32;
+				}
+				xSelect += 32;
+				
+				if(((handler.getKeyManager().cX > xSelect+xOffset) && (handler.getKeyManager().cX < xSelect + 32 + xOffset)) && ((handler.getKeyManager().cY > ySelect+yOffset) && (handler.getKeyManager().cY < ySelect + 32 + yOffset)))
+				{
+					handler.getSelector().setNewTileId(i+1000);
+					handler.getKeyManager().cX = -1;
+					handler.getKeyManager().cY = -1;
+					handler.getMapMakerCamera().setZoomLevel(handler.getSelector().oldZoom);//keeping the old zoom after selecting a tile.
+					State.setState(handler.getMapMaker().mapMakerState);
+				}
+			}
 		}
 	}
 	

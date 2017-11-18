@@ -15,6 +15,7 @@ import tiles.Tile;
 public class Selector 
 {
 	private Handler handler;
+	private boolean filling;
 	private float x, y;
 	private int tileX, tileY;
 	private int newTileId;
@@ -86,6 +87,98 @@ public class Selector
 		this.currentChangeList.add(c);
 	}
 	
+	private Tile getTileOnLocation()
+	{
+		return handler.getWorld().getTile(tileX, tileY, currentLayer);
+	}
+	
+	//changing the tile on a specific location to a new tile.
+	private void placeTileOnLocation(int x, int y, int tileId)
+	{
+		//setting the tile change
+		handler.getWorld().setTile(x, y, currentLayer, tileId);
+	}
+	
+	//Fills tiles (recursive) this will cause stack overflows if you try to fill areas that are too large
+	private void fill(int x, int y, int oldTileId)
+	{
+	    // Base cases
+	    if ((x < 0 || x >= handler.getWorld().getWidth()) || (y < 0 || y >= handler.getWorld().getHeight()))
+	        return;
+	    if (handler.getWorld().getTile(x,y,currentLayer).getId() != oldTileId)
+	        return;
+	 
+	    // Replace the tile at (x, y)
+	    placeTileOnLocation(x, y, newTileId);
+	    
+	    // Recur for north, east, south and west
+	    fill(x+1, y, oldTileId);
+	    fill(x-1, y, oldTileId);
+	    fill(x, y+1, oldTileId);
+	    fill(x, y-1, oldTileId);
+	}
+	
+	//Fills tiles, non-recursive (TileX, TileY, value of old tile ID)
+	private void fill2(int x, int y, int oldTileId)
+	{
+		//created a temp class to store the tile location value
+		class Location
+		{
+			public int x, y;
+			public Location(int x, int y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+		//creating a stack of locations of where next to place a tile at
+		Stack<Location> fillList = new Stack<Location>();
+		Location l = new Location(x,y);
+		fillList.add(l);
+		//fill loop, runs until there's nowhere left to fill
+		while(!fillList.isEmpty())
+		{
+			//pops the top location off the stack
+			l = fillList.pop();
+			int x1 = l.x;
+			int y1 = l.y;
+			//fills the tile at determined point
+		    placeTileOnLocation(x1, y1, newTileId);
+		    //checking up down left and right for valid filling.
+		    if(checkFillValidity(x1+1, y1, oldTileId))
+		    {
+		    	l = new Location(x1+1, y1);
+		    	fillList.push(l);
+		    }
+			if(checkFillValidity(x1-1, y1, oldTileId))
+		    {
+		    	l = new Location(x1-1, y1);
+		    	fillList.push(l);
+		    }
+			if(checkFillValidity(x1, y1+1, oldTileId))
+		    {
+		    	l = new Location(x1, y1+1);
+		    	fillList.push(l);
+		    }
+			if(checkFillValidity(x1, y1-1, oldTileId))
+		    {
+		    	l = new Location(x1, y1-1);
+		    	fillList.push(l);
+		    }
+		}
+	}
+	//checks if the next point is a valid fill location
+	private boolean checkFillValidity(int x, int y, int oldTileId)
+	{
+	    if ((x < 0 || x >= handler.getWorld().getWidth()) || (y < 0 || y >= handler.getWorld().getHeight()))
+	        return false;
+	    else
+	    	if (handler.getWorld().getTile(x,y,currentLayer).getId() != oldTileId)
+	    		return false;
+	    		else
+	    			return true;
+	}
+	
 	public void updatePosition()
 	{
 		if(State.getState() == handler.getMapMaker().mapMakerState)
@@ -106,18 +199,6 @@ public class Selector
 			this.y = ((tileY - (0/(Tile.TILEHEIGHT*2))) * (Tile.TILEHEIGHT*2));
 		}
 		
-	}
-	
-	private Tile getTileOnLocation()
-	{
-		return handler.getWorld().getTile(tileX, tileY, currentLayer);
-	}
-	
-	//changing the tile on a specific location to a new tile.
-	private void placeTileOnLocation(int x, int y, int tileId)
-	{
-		//setting the tile change
-		handler.getWorld().setTile(x, y, currentLayer, tileId);
 	}
 	
 	private void getInput()
@@ -143,161 +224,23 @@ public class Selector
 			if(handler.getKeyManager().leftArrow && !handler.getKeyManager().rightArrow)
 				handler.getMapMakerCamera().moveByTile(-1,0);
 			if(handler.getKeyManager().rightArrow && !handler.getKeyManager().leftArrow)		
-				handler.getMapMakerCamera().moveByTile(1,0);
-		
+				handler.getMapMakerCamera().moveByTile(1,0);		
 			
-			//RIGHT CLICKING to move camera
-			if(handler.getKeyManager().rightClick)
-			{
-				int xMove = 0;
-				int yMove = 0;
-				if(handler.getKeyManager().dragging)
-				{
-					xMove = handler.getKeyManager().cX - handler.getKeyManager().dX;
-					yMove = handler.getKeyManager().cY - handler.getKeyManager().dY;
-					handler.getKeyManager().cX = handler.getKeyManager().dX;
-					handler.getKeyManager().cY = handler.getKeyManager().dY;
-				}
-				handler.getMapMakerCamera().move(xMove, yMove);
-			}
-			
+			//CHECKING ALL USER INPUT OPTIONS 
+			//DIFFERENT TOOLS
+			checkTools();
 			//ZOOMING(in / out)
-			if(handler.getKeyManager().mouseWheelUp && !handler.getKeyManager().mouseWheelDown)
-			{
-				handler.getMapMakerCamera().zoomIn();
-				handler.getKeyManager().mouseWheelUp = false;
-			}
-			if(handler.getKeyManager().mouseWheelDown && !handler.getKeyManager().mouseWheelUp)
-			{
-				handler.getMapMakerCamera().zoomOut();
-				handler.getKeyManager().mouseWheelDown = false;
-			}
-			
+			checkZoom();
 			//SHIFTING LAYERS
-			//UP LAYER
-			if(handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
-			{
-				if(this.currentLayer<3)
-				{
-					this.currentLayer++;
-				}
-				else//rolls over
-				{
-					this.currentLayer = 0;
-				}
-				handler.getWorld().setHighlightLayer(currentLayer);
-				handler.getKeyManager().layerUp = false;
-			}
-			//DOWN LAYER
-			if(handler.getKeyManager().layerDown && !handler.getKeyManager().layerUp)
-			{
-				if(this.currentLayer>0)
-				{
-					this.currentLayer--;
-				}
-				else//rolls over
-				{
-					this.currentLayer = 3;
-				}
-				handler.getWorld().setHighlightLayer(currentLayer);
-				handler.getKeyManager().layerDown = false;
-			}
+			checkLayerShift();
 			//highlighting layer
-			if(handler.getKeyManager().highlight)
-			{
-				if(!handler.getWorld().getHighlight())
-				{
-					handler.getWorld().setHighlight(true);
-					handler.getKeyManager().highlight = false;
-				}
-				else //unhighlighting
-				{
-					handler.getWorld().setHighlight(false);
-					handler.getKeyManager().highlight = false;
-				}
-			}
+			checkHighlight();
 			//grid view
-			if(handler.getKeyManager().gridView)
-			{
-				if(!handler.getWorld().getGridView())
-				{
-					handler.getWorld().setGridView(true);
-					handler.getKeyManager().gridView = false;
-				}
-				else
-				{
-					handler.getWorld().setGridView(false);
-					handler.getKeyManager().gridView = false;
-				}
-			}
-			//BASE LAYER
-			if(handler.getKeyManager().layerBase && !handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
-			{
-				this.currentLayer = 0;
-				handler.getWorld().setHighlightLayer(currentLayer);
-				handler.getKeyManager().layerBase = false;
-			}
-			
+			checkGridview();			
 			//LEFT CLICKING ON TILES, so they can be changed.
-			if(handler.getKeyManager().leftClick)
-			{
-				if(this.newTileId != getTileOnLocation().getId()) //so it doesnt place the same tile thats already on the loc
-				{	
-					//placing the tile
-					placeTileOnLocation(tileX, tileY, newTileId);
-					Sound.playSfx("placeTile.wav");
-				}
-			}
-			else
-			{
-				if(currentChangeList != null && currentChangeList.size() != 0) //if the list isnt empty, add it to the stack and then reset it.
-				{
-					allChangesStack.push(currentChangeList);
-					currentChangeList = null;
-				}
-			}
-			//RIGHT CLICKING ON TILES, gets current tile
-			if(handler.getKeyManager().rightClick)
-			{
-				 getTileOnLocation();
-			}
-			//MIDDLE CLICKING ON TILES, copies the tile on position to the current tile.
-			if(handler.getKeyManager().middleClick)
-			{
-				 this.setNewTileId(getTileOnLocation().getId());
-			}
-			
-			//CHANGES (UNDOING AND REDOING)
-			//UNDOING the changes
-			if(handler.getKeyManager().ctrl && handler.getKeyManager().z)
-			{
-				if(allChangesStack.size() != 0) //if the stack isnt empty
-				{
-					ArrayList<Change> poppedList = allChangesStack.pop(); //pop the top change list from the stack
-					
-					for(int i = 0; i < poppedList.size(); i++)
-					{
-						poppedList.get(i).undo(); //undo the change
-					}
-					allChangesUndone.push(poppedList);//pushing the changes undone onto the undone stack.
-				}
-				handler.getKeyManager().z = false;
-			}
-			//REDOING the changes
-			if(handler.getKeyManager().ctrl && handler.getKeyManager().y)
-			{
-				if(allChangesUndone.size() != 0) //if the stack isnt empty
-				{
-					ArrayList<Change> redoList = allChangesUndone.pop(); //pop the top redo list from the stack
-					
-					for(int i = 0; i < redoList.size(); i++)
-					{
-						redoList.get(i).redo(); //redo the change
-					}
-					allChangesStack.push(redoList);//pushing the changes re-done back onto the all changes stack
-				}
-				handler.getKeyManager().y = false;
-			}
+			checkClicks();
+			//UNDOING / REDOING
+			handleChanges();
 		}
 		
 		//CONTROLS IN THE TILE SELECTION STATE
@@ -321,6 +264,166 @@ public class Selector
 			stateSwap(State.getState());
 			handler.getKeyManager().openTileSelection = false;
 			handler.getKeyManager().openMenu = false;
+		}
+	}
+	
+	private void checkTools()
+	{
+		//FILL OPTION
+		if(handler.getKeyManager().fillTool)
+		{
+			if(!this.filling)
+			{
+				this.filling = true;
+				handler.getKeyManager().fillTool = false;
+			}
+			else
+			{
+				this.filling = false;
+				handler.getKeyManager().fillTool = false;
+			}			
+		}
+	}
+	
+	private void checkZoom()
+	{
+		if(handler.getKeyManager().mouseWheelUp && !handler.getKeyManager().mouseWheelDown)
+		{
+			handler.getMapMakerCamera().zoomIn();
+			handler.getKeyManager().mouseWheelUp = false;
+		}
+		if(handler.getKeyManager().mouseWheelDown && !handler.getKeyManager().mouseWheelUp)
+		{
+			handler.getMapMakerCamera().zoomOut();
+			handler.getKeyManager().mouseWheelDown = false;
+		}
+	}
+	
+	private void checkLayerShift()
+	{
+		//SHIFTING LAYERS
+		//UP LAYER
+		if(handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
+		{
+			if(this.currentLayer<3)
+			{
+				this.currentLayer++;
+			}
+			else//rolls over
+			{
+				this.currentLayer = 0;
+			}
+			handler.getWorld().setHighlightLayer(currentLayer);
+			handler.getKeyManager().layerUp = false;
+		}
+		//DOWN LAYER
+		if(handler.getKeyManager().layerDown && !handler.getKeyManager().layerUp)
+		{
+			if(this.currentLayer>0)
+			{
+				this.currentLayer--;
+			}
+			else//rolls over
+			{
+				this.currentLayer = 3;
+			}
+			handler.getWorld().setHighlightLayer(currentLayer);
+			handler.getKeyManager().layerDown = false;
+		}
+		//BASE LAYER
+		if(handler.getKeyManager().layerBase && !handler.getKeyManager().layerUp && !handler.getKeyManager().layerDown)
+		{
+			this.currentLayer = 0;
+			handler.getWorld().setHighlightLayer(currentLayer);
+			handler.getKeyManager().layerBase = false;
+		}
+	}
+	
+	private void checkHighlight()
+	{
+		if(handler.getKeyManager().highlight)
+		{
+			if(!handler.getWorld().getHighlight())
+			{
+				handler.getWorld().setHighlight(true);
+				handler.getKeyManager().highlight = false;
+			}
+			else //unhighlighting
+			{
+				handler.getWorld().setHighlight(false);
+				handler.getKeyManager().highlight = false;
+			}
+		}
+	}
+	
+	private void checkGridview()
+	{
+		if(handler.getKeyManager().gridView)
+		{
+			if(!handler.getWorld().getGridView())
+			{
+				handler.getWorld().setGridView(true);
+				handler.getKeyManager().gridView = false;
+			}
+			else
+			{
+				handler.getWorld().setGridView(false);
+				handler.getKeyManager().gridView = false;
+			}
+		}
+	}
+	
+	private void checkClicks()
+	{
+		if(handler.getKeyManager().leftClick)
+		{
+			if(this.newTileId != getTileOnLocation().getId()) //so it doesnt place the same tile thats already on the loc
+			{	
+				if(filling)
+				{
+					int oldTileId = handler.getWorld().getTile(tileX, tileY, currentLayer).getId();
+					fill2(tileX, tileY, oldTileId);
+				}
+				else
+				{
+					//placing the tile
+					placeTileOnLocation(tileX, tileY, newTileId);
+					Sound.playSfx("placeTile.wav");
+				}
+			}
+		}
+		else
+		{
+			if(currentChangeList != null && currentChangeList.size() != 0) //if the list isnt empty, add it to the stack and then reset it.
+			{
+				allChangesStack.push(currentChangeList);
+				currentChangeList = null;
+			}
+		}
+		//RIGHT CLICKING ON TILES, gets current tile
+		if(handler.getKeyManager().rightClick)
+		{
+			 getTileOnLocation();
+		}
+		//MIDDLE CLICKING ON TILES, copies the tile on position to the current tile.
+		if(handler.getKeyManager().middleClick)
+		{
+			 this.setNewTileId(getTileOnLocation().getId());
+		}
+		
+		//RIGHT CLICKING to move camera
+		if(handler.getKeyManager().rightClick)
+		{
+			int xMove = 0;
+			int yMove = 0;
+			if(handler.getKeyManager().dragging)
+			{
+				xMove = handler.getKeyManager().cX - handler.getKeyManager().dX;
+				yMove = handler.getKeyManager().cY - handler.getKeyManager().dY;
+				handler.getKeyManager().cX = handler.getKeyManager().dX;
+				handler.getKeyManager().cY = handler.getKeyManager().dY;
+			}
+			handler.getMapMakerCamera().move(xMove, yMove);
 		}
 	}
 	
@@ -363,6 +466,41 @@ public class Selector
 		}
 	}
 	
+	//CHANGES (UNDOING AND REDOING)
+	private void handleChanges()
+	{
+		//UNDOING the changes
+		if(handler.getKeyManager().ctrl && handler.getKeyManager().z)
+		{
+			if(allChangesStack.size() != 0) //if the stack isnt empty
+			{
+				ArrayList<Change> poppedList = allChangesStack.pop(); //pop the top change list from the stack
+				
+				for(int i = 0; i < poppedList.size(); i++)
+				{
+					poppedList.get(i).undo(); //undo the change
+				}
+				allChangesUndone.push(poppedList);//pushing the changes undone onto the undone stack.
+			}
+			handler.getKeyManager().z = false;
+		}
+		//REDOING the changes
+		if(handler.getKeyManager().ctrl && handler.getKeyManager().y)
+		{
+			if(allChangesUndone.size() != 0) //if the stack isnt empty
+			{
+				ArrayList<Change> redoList = allChangesUndone.pop(); //pop the top redo list from the stack
+				
+				for(int i = 0; i < redoList.size(); i++)
+				{
+					redoList.get(i).redo(); //redo the change
+				}
+				allChangesStack.push(redoList);//pushing the changes re-done back onto the all changes stack
+			}
+			handler.getKeyManager().y = false;
+		}
+	}
+	
 	public void tick()
 	{
 		getInput();
@@ -371,7 +509,12 @@ public class Selector
 	
 	public void render(Graphics g)
 	{
-		g.drawImage(Assets.selector, (int) x, (int) y, width, height, null);
+		if(!filling)
+			g.drawImage(Assets.selector, (int) x, (int) y, width, height, null);
+		else
+			g.drawImage(Assets.selectorFill, (int) x, (int) y, width, height, null);
+		
+		//Drawing the information
 		if(State.getState() == handler.getMapMaker().mapMakerState)
 		{
 			g.setColor(Color.GRAY);
@@ -389,6 +532,17 @@ public class Selector
 		{
 			g.setColor(Color.CYAN);
 			g.drawString("LAYER:"+this.getCurrentLayer(), 0, 10);
+			
+			if(filling)
+			{
+				g.setColor(Color.CYAN);
+				g.drawString("TOOL: FILL", 0, 45);
+			}
+			else
+			{
+				g.setColor(Color.CYAN);
+				g.drawString("TOOL: PLACE", 0, 45);
+			}
 		}
 	}
 }

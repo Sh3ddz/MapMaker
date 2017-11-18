@@ -2,6 +2,7 @@ package tiles;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import gfx.Assets;
 
@@ -9,8 +10,10 @@ public class Tile
 {
 	//STATIC STUFF HERE
 	
+	//imported tiles
+	public static ArrayList<Tile> importedTiles = new ArrayList<Tile>();
 	//1x1 Tiles
-	public static Tile[] tiles = new Tile[1000];
+	public static Tile[] tiles = new Tile[10000];
 	public static Tile air = new AirTile(999);
 	public static Tile grassTile = new Tile(Assets.grass, 0);
 	public static Tile grass2Tile = new Tile(Assets.grass2, 1);
@@ -349,7 +352,8 @@ public class Tile
     public static Tile hedge9 = new SolidTile(Assets.hedge9, 231);
     public static Tile hedge10 = new SolidTile(Assets.hedge10, 232);
     public static Tile hedge11 = new SolidTile(Assets.hedge11, 233);
-	
+	private static int importedTilesAmt = 0;
+
 	//CLASS
 	public static int TILEWIDTH, TILEHEIGHT;
 	
@@ -404,6 +408,28 @@ public class Tile
 	public BufferedImage getTexture()
 	{
 		return this.texture;
+	}
+	
+	public static void setImportedTiles(ArrayList<BufferedImage> iTT)
+	{
+		int currentTileId = 1000 + importedTilesAmt;
+		
+		for(int i = 0; i < iTT.size(); i++)
+		{
+			if(currentTileId < 10000)
+			{
+				Tile temp = new Tile(iTT.get(i), currentTileId);
+				importedTiles.add(temp);
+				Tile.importedTilesAmt++;
+				currentTileId++;
+			}
+			else if(currentTileId >= 10000) //if the tiles added are more than the tile array, dont add them (prevents crashing)
+			{
+				System.out.println("The max tiles allowed are filled! please remove tiles to add more!");
+				return;
+			}
+		}
+		System.out.println(Tile.importedTilesAmt+", "+currentTileId);
 	}
 	
 	public static void updateTextures() //for texture pack loading.

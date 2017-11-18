@@ -89,7 +89,6 @@ public class MenuState extends State
 			{
 				System.out.println("Load World clicked, loading a world.");
 				handler.getWorld().loadNewWorld();
-				State.setState(handler.getMapMaker().mapMakerState);
 			}
 			//SAVE WORLD BUTTON
 			if((handler.getKeyManager().cX >= 220 && handler.getKeyManager().cX <= 420) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
@@ -103,6 +102,13 @@ public class MenuState extends State
 				System.out.println("Load Texture Pack clicked, loading a texture pack.");
 				handler.getMapMakerCamera().zoomReset();
 				Assets.loadTexturePack();
+				State.setState(handler.getMapMaker().mapMakerState);
+			}
+			//IMPORT TILE BUTTON
+			if((handler.getKeyManager().cX >= 10 && handler.getKeyManager().cX <= 210) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
+			{
+				System.out.println("Import Tiles clicked, importing tiles. (FINISH THIS!)");
+				Assets.importTiles();
 				State.setState(handler.getMapMaker().mapMakerState);
 			}
 			//EXIT BUTTON
@@ -267,7 +273,16 @@ public class MenuState extends State
 	    g.drawString("Load", 85, 165);
 	    g.drawString("Texture Pack", 45, 185);
 
-	    
+	    //IMPORT TILES button
+	    if((handler.getKeyManager().mX >= 10 && handler.getKeyManager().mX <= 210) && (handler.getKeyManager().mY >= 220 && handler.getKeyManager().mY <= 270))
+	    	g.setColor(Color.GRAY);
+	    else
+	    	g.setColor(Color.WHITE);
+	    g.fillRect(10,220,200,50);
+	    g.setColor(Color.BLACK);  
+	    g.drawString("Import", 75, 240);
+	    g.drawString("Tiles", 80, 262);
+	   
 	    //EXIT button
 	    if((handler.getKeyManager().mX >= 220 && handler.getKeyManager().mX <= 420) && (handler.getKeyManager().mY >= 295 && handler.getKeyManager().mY <= 345))
 	    	g.setColor(Color.GRAY);

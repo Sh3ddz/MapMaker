@@ -82,6 +82,16 @@ public class World
 		//dont generate larger tiles, since it's already in the change log generating it again here will double the changes and cause errors.
 	}
 	
+	public int getWidth()
+	{
+		return this.width;
+	}
+	
+	public int getHeight()
+	{
+		return this.height;
+	}
+	
 	public int getSpawnX()
 	{
 		return spawnX;
@@ -175,6 +185,7 @@ public class World
 				}
 			}
 		}
+		State.setState(handler.getMapMaker().mapMakerState);
 	}
 	
 	//Saving the world to a text file
@@ -251,6 +262,7 @@ public class World
 	{
 		//creating the filechooser and setting current directory.
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Load World");
 		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/worlds");
 		fileChooser.setCurrentDirectory(workingDirectory);
 		
@@ -268,18 +280,30 @@ public class World
 	{
 		String tempOPString = JOptionPane.showInputDialog("New World Width");
 		int newWorldWidth = 0;
-		if(tempOPString != null)
+		if(tempOPString != null && !tempOPString.equals(""))
 			newWorldWidth = Integer.parseInt(tempOPString);
+		if(newWorldWidth == 0)
+		{
+			return;
+		}
 		
 		tempOPString = JOptionPane.showInputDialog("New World Height");
 		int newWorldHeight = 0;
-		if(tempOPString != null)
+		if(tempOPString != null && !tempOPString.equals(""))
 			newWorldHeight = Integer.parseInt(tempOPString);
+		if(newWorldHeight == 0)
+		{
+			return;
+		}
 		
 		tempOPString = JOptionPane.showInputDialog("1.)Random 2.)All Grass 3.)Ocean 4.) Forest");
 		int generationOption = 0;
-		if(tempOPString != null)
+		if(tempOPString != null && !tempOPString.equals(""))
 			generationOption = Integer.parseInt(tempOPString);
+		if(generationOption == 0)
+		{
+			return;
+		}
 		
 		if(newWorldWidth != 0 && newWorldHeight != 0 && generationOption != 0)
 			createNewWorld(newWorldWidth, newWorldHeight, generationOption);
@@ -741,6 +765,7 @@ public class World
 				}
 			}
 		}
+		
 		//rendering in the grid.
 		if(gridView)
 		{

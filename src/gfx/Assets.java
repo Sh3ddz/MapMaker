@@ -2,18 +2,19 @@ package gfx;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import tiles.Tile;
 
 public class Assets
 {
 	
-	private static final int WIDTH = 16, HEIGHT = 16;
-	
+	private static int WIDTH = 16, HEIGHT = 16;
 	//IMAGES
-	public static BufferedImage playerHead, playerBody, air, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, smallRock, mushroom, snow, snow2,
+	public static BufferedImage air, grass, grass2, flower, grass3, grass4, entrancePadL, entrancePadR, path, path2, path3, path4, smallRock, mushroom, snow, snow2,
 								dirt, dirt2, dirt3, dirt4, dirt5,													spawnPad1, spawnPad2, stonepath1, stonepath2, path5, mushroomGroup1, mushroomGroup2, mushroomGroup3, mushroomGroup4,
 								water, water2, waterRock,															spawnPad3, spawnPad4, stonepath3, stonepath4,
 								bush1, bush2, rock1, rock2, struc1, struc2, tallgrass1, tallgrass2, sign1, sign2, tallgrassend1, tallgrassend2, fencetop, fenceconnecttop,							bench1, bench2, bench3, chair1, chair2,
@@ -35,7 +36,7 @@ public class Assets
 							    house33, house34, house35, house36, house37, house38, house39, house40,
 							    house41, house42, house43, house44, house45, house46, house47, house48,
 							    house49, house50, house51, house52, house53, house54, house55, houseShadow1, houseShadow2, houseShadow3,
-								selector, muteSound, nextSong, grid,
+								selector, selectorFill, muteSound, nextSong, grid,
 								hedge1, hedge2, hedge3, hedge4, hedge5, hedge6, hedge7, hedge8, 
 								hedge9, hedge10, hedge11,
 								cliff1, cliff2, cliff3, cliff4, cliff5, cliff6, cliff7, cliff8, cliff9, cliff10,
@@ -48,20 +49,20 @@ public class Assets
 								treeFull, stumpFull, stumpTreeFull, bushFull, rockFull, strucFull, tallgrassFull, signFull, fenceFull, mushroomGroupFull;
 	//SPRITESHEETS
 	//
-	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/usefulimages/loading.png");
+	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/textures/loading.png");
 	//FOR Graal Online Classic tiles:
-	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/tileSpriteSheet.png"));
+	public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/spritesheets/tileSpriteSheet.png"));
 	//FOR A Link To The Past tiles:
 	//public static SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/textures/ALTTPSpriteSheet.png"));	public static BufferedImage loadingScreen = ImageLoader.loadImage("/resources/textures/loading.png");
 	
 	public static void init()
-	{		
-		playerHead = sheet.crop(WIDTH*2, HEIGHT*28, WIDTH*2, HEIGHT*2);
-		playerBody = sheet.crop(WIDTH*2, HEIGHT*30, WIDTH*2, HEIGHT*2);
-		selector = sheet.crop(0, HEIGHT*27, WIDTH, HEIGHT);
-		grid = sheet.crop(0, HEIGHT*26, WIDTH, HEIGHT);
-		muteSound = sheet.crop(WIDTH, HEIGHT*27, WIDTH, HEIGHT);
-		nextSong = sheet.crop(WIDTH*2, HEIGHT*27, WIDTH, HEIGHT);
+	{				
+		System.out.println(sheet.getWidth()+", "+sheet.getHeight());
+		selector = ImageLoader.loadImage("/resources/textures/selectorTexture.png");
+		selectorFill = ImageLoader.loadImage("/resources/textures/fillTexture.png");
+		grid = ImageLoader.loadImage("/resources/textures/gridTexture.png");
+		muteSound = ImageLoader.loadImage("/resources/textures/mute.png");
+		nextSong = ImageLoader.loadImage("/resources/textures/nextsong.png");
 		
 		air = sheet.crop(WIDTH*31, HEIGHT*31, WIDTH, HEIGHT);
 		grass = sheet.crop(0, 0, WIDTH, HEIGHT);
@@ -421,14 +422,14 @@ public class Assets
 	{
 		//creating the filechooser and setting current directory.
 		JFileChooser fileChooser = new JFileChooser();
-		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/textures");
+		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/spritesheets");
 		fileChooser.setCurrentDirectory(workingDirectory);
 		
 		//getting the path of the new world file and then loading it.
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
 		{
 		 	File file = fileChooser.getSelectedFile();
-		 	String path = "/resources/textures/"+file.getName();
+		 	String path = "/resources/spritesheets/"+file.getName();
 			setSpriteSheet(path);
 			System.out.println("Loaded "+path+" as a texture pack.");
 		}
@@ -439,5 +440,69 @@ public class Assets
 		Assets.sheet = new SpriteSheet(ImageLoader.loadImage(path));
 		Assets.init(); //re-loading the new textures.
 		Tile.updateTextures();
+	}
+	
+	public static void importTiles()
+	{
+		//creating the filechooser and setting current directory.
+		int importHeight = 0;
+		int importWidth = 0;
+		SpriteSheet importedSheet = null;
+		JFileChooser fileChooser = new JFileChooser();
+		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/spritesheets");
+		fileChooser.setCurrentDirectory(workingDirectory);
+		
+		//getting the path of the new world file and then loading it.
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+		 	File file = fileChooser.getSelectedFile();
+		 	String path = "/resources/spritesheets/"+file.getName();
+		 	
+		 	importedSheet = new SpriteSheet(ImageLoader.loadImage(path));
+		 	
+			System.out.println("Imported "+path+" as tiles.");
+		}
+		
+		String tempOPString = JOptionPane.showInputDialog("Tile Width?");
+		if(tempOPString != null && !tempOPString.equals(""))
+			importWidth = Integer.parseInt(tempOPString);
+		if(importWidth == 0)
+		{
+			return;
+		}
+		
+		tempOPString = JOptionPane.showInputDialog("Tile Height?");
+		if(tempOPString != null && !tempOPString.equals(""))
+			importHeight = Integer.parseInt(tempOPString);
+		if(importHeight == 0)
+		{
+			return;
+		}
+		
+		initImportedTileTextures(importedSheet, importWidth, importHeight);
+		
+	}
+	
+	private static void initImportedTileTextures(SpriteSheet iS, int importWidth, int importHeight)
+	{
+		ArrayList<BufferedImage> importedTileTextures = new ArrayList<BufferedImage>();
+
+		int tilesPerRow = ((iS.getWidth() / importWidth));
+		int tilesPerCol = ((iS.getHeight() / importHeight));
+		
+		int currentTileTextureX = 0;
+		int currentTileTextureY = 0;
+		for(int y = 0; y < tilesPerCol; y++)
+		{
+			for(int x = 0; x < tilesPerRow; x++)
+			{
+				importedTileTextures.add(iS.crop(importWidth*currentTileTextureX, importHeight*currentTileTextureY, importWidth, importHeight));
+				currentTileTextureX++;
+			}
+			currentTileTextureX = 0;
+			currentTileTextureY++;
+		}	
+		
+		Tile.setImportedTiles(importedTileTextures);
 	}
 }

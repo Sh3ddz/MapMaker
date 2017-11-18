@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class SpriteSheet
 {
-
-	private BufferedImage sheet;
+	private BufferedImage sheet;	
 	
 	public SpriteSheet(BufferedImage sheet)
 	{
@@ -17,4 +16,13 @@ public class SpriteSheet
 		return sheet.getSubimage(x, y, width, height);
 	}
 	
+	public int getWidth()//returns width of the sprite sheet
+	{
+		return sheet.getWidth();
+	}
+	
+	public int getHeight()//returns height of the sprite sheet
+	{
+		return sheet.getHeight();
+	}
 }
