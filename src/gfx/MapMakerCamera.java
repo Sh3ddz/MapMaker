@@ -11,7 +11,7 @@ public class MapMakerCamera
 	private Handler handler;
 	private float xOffset, yOffset;
 	private int zoomLevel;
-	
+
 	public MapMakerCamera(MapMaker mapMaker, World world, Handler handler)
 	{
 		this.handler = handler;
@@ -92,11 +92,12 @@ public class MapMakerCamera
 		{
 			int mousePosX = handler.getKeyManager().mX;
 			int mousePosY = handler.getKeyManager().mY;
-			this.xOffset = (float) (xOffset *2) + (mousePosX);
-			this.yOffset = (float) (yOffset *2) + (mousePosY);
-			//uncomment this if you want it to zoom towards the center of the screen.
+			this.xOffset = (float) (xOffset * 2) + (mousePosX);
+			this.yOffset = (float) (yOffset * 2) + (mousePosY);
+
 			//this.xOffset = (float) (xOffset *2) - (handler.getWidth()/2);
 			//this.yOffset = (float) (yOffset *2) - (handler.getHeight()/2);
+
 			Tile.TILEWIDTH *= 2;
 			Tile.TILEHEIGHT *= 2;
 			Selector.width *= 2;

@@ -149,39 +149,75 @@ public class World
 	{
 		handler.getMapMaker().displayLoadingScreen(); //displaying the loading screen
 		String file = Utils.loadFileAsString(path);
-		String[] tokens = file.split("\\s+");
-		width = Utils.parseInt(tokens[0]);
-		height = Utils.parseInt(tokens[1]);
-		spawnX = Utils.parseInt(tokens[2]);
-		spawnY = Utils.parseInt(tokens[3]);
-		
-		handler.getMapMakerCamera().setPosition(spawnX, spawnY);
-
-		tilesLayer0 = new int[width][height];
-		tilesLayer1 = new int[width][height];
-		tilesLayer2 = new int[width][height];
-		tilesLayer3 = new int[width][height]; 
-		layers = new ArrayList<int[][]>();
-		layers.add(tilesLayer0);
-		layers.add(tilesLayer1);
-		layers.add(tilesLayer2);
-		layers.add(tilesLayer3);
-		
-		int token = 4; //which number its reading in
-		for(int l = 0; l < layers.size(); l++)
+		if(file == null)
 		{
-			for(int y = 0; y < height; y++)
+			width = 100;
+			height = 100;
+			spawnX = 0;
+			spawnY = 0;
+
+			handler.getMapMakerCamera().setPosition(spawnX, spawnY);
+
+			tilesLayer0 = new int[width][height];
+			tilesLayer1 = new int[width][height];
+			tilesLayer2 = new int[width][height];
+			tilesLayer3 = new int[width][height];
+			layers = new ArrayList<int[][]>();
+			layers.add(tilesLayer0);
+			layers.add(tilesLayer1);
+			layers.add(tilesLayer2);
+			layers.add(tilesLayer3);
+			for(int l = 0; l < layers.size(); l++)
 			{
-				for(int x = 0; x < width; x++)
+				for(int y = 0; y < height; y++)
 				{
-					if(token > tokens.length)
+					for(int x = 0; x < width; x++)
 					{
-						layers.get(l)[x][y] = 999; //setting it to air if the file isn't formatted right.
-						continue;
+						if(l >= 1)
+						{
+							layers.get(l)[x][y] = 999; //setting it to air if the file isn't formatted right.
+							continue;
+						}
 					}
-					if(layers.get(l)[x][y]  == 0 && token < tokens.length)//checking if token is less than the length of tokens so it doesnt throw an OOB exception and crash. (mainly for bad world files).
-						layers.get(l)[x][y] = Utils.parseInt(tokens[token]);
-					token++;
+				}
+			}
+		}
+		else
+		{
+			String[] tokens = file.split("\\s+");
+			width = Utils.parseInt(tokens[0]);
+			height = Utils.parseInt(tokens[1]);
+			spawnX = Utils.parseInt(tokens[2]);
+			spawnY = Utils.parseInt(tokens[3]);
+
+			handler.getMapMakerCamera().setPosition(spawnX, spawnY);
+
+			tilesLayer0 = new int[width][height];
+			tilesLayer1 = new int[width][height];
+			tilesLayer2 = new int[width][height];
+			tilesLayer3 = new int[width][height];
+			layers = new ArrayList<int[][]>();
+			layers.add(tilesLayer0);
+			layers.add(tilesLayer1);
+			layers.add(tilesLayer2);
+			layers.add(tilesLayer3);
+
+			int token = 4; //which number its reading in
+			for(int l = 0; l < layers.size(); l++)
+			{
+				for(int y = 0; y < height; y++)
+				{
+					for(int x = 0; x < width; x++)
+					{
+						if(token > tokens.length)
+						{
+							layers.get(l)[x][y] = 999; //setting it to air if the file isn't formatted right.
+							continue;
+						}
+						if(layers.get(l)[x][y] == 0 && token < tokens.length)//checking if token is less than the length of tokens so it doesnt throw an OOB exception and crash. (mainly for bad world files).
+							layers.get(l)[x][y] = Utils.parseInt(tokens[token]);
+						token++;
+					}
 				}
 			}
 		}
@@ -214,7 +250,7 @@ public class World
 			fileName = fileName+".txt";
 		}
 		//writing to the file
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("src/resources/worlds/"+fileName), "utf-8"))) 
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileChooser.getCurrentDirectory()+File.separator+fileName), "utf-8")))
 		{
 			writer.write(""+this.width+" "+this.height);
 			((BufferedWriter) writer).newLine();
@@ -255,7 +291,7 @@ public class World
 			writer.flush();
 			writer.close();
 		}
-		System.out.println("World Saved! path: src/resources/worlds/"+fileName);
+		System.out.println("World Saved! path: "+fileChooser.getCurrentDirectory()+File.separator+fileName);
 	}
 	
 	public void loadNewWorld()
@@ -263,6 +299,7 @@ public class World
 		//creating the filechooser and setting current directory.
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Load World");
+
 		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/worlds");
 		fileChooser.setCurrentDirectory(workingDirectory);
 		
@@ -270,7 +307,7 @@ public class World
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
 		{
 		 	File file = fileChooser.getSelectedFile();
-		 	String path = "src/resources/worlds/"+file.getName();
+			String path = file.getAbsolutePath();
 			loadWorld(path);
 			System.out.println("Loaded "+path+" as a world.");
 		}
@@ -642,26 +679,22 @@ public class World
 			if(y+1<layers.get(layer).length)
 			{
 				if(layers.get(layer)[x][y+1] != 125)
-					layers.get(layer)[x][y+1] = 126;
+					setTile(x,y+1, layer, Tile.fencebottomTile.getId());
 			}
 			//connection on the left (if there's a tile on the left)
 			if((x>1) && (y+1<layers.get(layer).length))
 			{
 				if(layers.get(layer)[x-2][y] == 125)
 				{
-					layers.get(layer)[x-2][y] = 125;
-					layers.get(layer)[x-2][y+1] = 126;
-					layers.get(layer)[x-1][y] = 127;
-					layers.get(layer)[x-1][y+1] = 128;
-					layers.get(layer)[x][y+1] = 126;
+					setTile(x-2,y+1, layer, Tile.fencebottomTile.getId());
+					setTile(x-1,y, layer, Tile.fenceconnecttopTile.getId());
+					setTile(x-1,y+1, layer, Tile.fenceconnectshadowTile.getId());
+					setTile(x,y+1, layer, Tile.fencebottomTile.getId());
+
 					//checking if there's also a connection below
 					if(y+2<layers.get(layer).length)
-					{
 						if(layers.get(layer)[x-2][y+2] == 125)
-						{
-							layers.get(layer)[x-2][y+1] = 129;
-						}
-					}
+							setTile(x-2,y+1, layer, Tile.fenceconnectdownTile.getId());
 				}
 			}
 			//connection on the right (if there's a tile on the right)
@@ -669,39 +702,24 @@ public class World
 			{
 				if(layers.get(layer)[x+2][y] == 125)
 				{
-					layers.get(layer)[x+2][y] = 125;
-					layers.get(layer)[x+2][y+1] = 126;
-					layers.get(layer)[x+1][y] = 127;
-					layers.get(layer)[x+1][y+1] = 128;
-					layers.get(layer)[x][y+1] = 126;
+					setTile(x+2,y+1, layer, Tile.fencebottomTile.getId());
+					setTile(x+1,y, layer, Tile.fenceconnecttopTile.getId());
+					setTile(x+1,y+1, layer, Tile.fenceconnectshadowTile.getId());
+					setTile(x,y+1, layer, Tile.fencebottomTile.getId());
 					//checking if there's also a connection below
 					if(y+2<layers.get(layer).length)
-					{
 						if(layers.get(layer)[x+2][y+2] == 125)
-						{
-							layers.get(layer)[x+2][y+1] = 129;
-						}
-					}
+							setTile(x+2,y+1, layer, Tile.fenceconnectdownTile.getId());
 				}
 			}
 			//connection down (if there's a tile below)
 			if(y+2<layers.get(layer).length)
-			{
 				if(layers.get(layer)[x][y+2] == 125)
-				{
-					layers.get(layer)[x][y+2] = 125;
-					layers.get(layer)[x][y+1] = 129;
-				}
-			}
+					setTile(x,y+1, layer, Tile.fenceconnectdownTile.getId());
 			//connection up (if there's a tile above)
 			if(y>1)
-			{
 				if(layers.get(layer)[x][y-2] == 125)
-				{
-					layers.get(layer)[x][y-2] = 125;
-					layers.get(layer)[x][y-1] = 129;
-				}
-			}
+					setTile(x,y-1, layer, Tile.fenceconnectdownTile.getId());
 		}
 	}
 	

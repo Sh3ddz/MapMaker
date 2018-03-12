@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import main.Handler;
 
+import javax.sound.sampled.LineUnavailableException;
+
 public abstract class State 
 {
 

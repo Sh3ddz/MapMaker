@@ -418,37 +418,15 @@ public class Assets
 	    mushroomGroupFull = sheet.crop(WIDTH*11, WIDTH, WIDTH*2, HEIGHT*2);
 	}
 	
-	public static void loadTexturePack()
-	{
-		//creating the filechooser and setting current directory.
-		JFileChooser fileChooser = new JFileChooser();
-		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/spritesheets");
-		fileChooser.setCurrentDirectory(workingDirectory);
-		
-		//getting the path of the new world file and then loading it.
-		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-		{
-		 	File file = fileChooser.getSelectedFile();
-		 	String path = "/resources/spritesheets/"+file.getName();
-			setSpriteSheet(path);
-			System.out.println("Loaded "+path+" as a texture pack.");
-		}
-	}
-	
-	public static void setSpriteSheet(String path)//changes the spritesheet
-	{
-		Assets.sheet = new SpriteSheet(ImageLoader.loadImage(path));
-		Assets.init(); //re-loading the new textures.
-		Tile.updateTextures();
-	}
-	
 	public static void importTiles()
 	{
 		//creating the filechooser and setting current directory.
 		int importHeight = 0;
 		int importWidth = 0;
 		SpriteSheet importedSheet = null;
+
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Import Tiles");
 		File workingDirectory = new File(System.getProperty("user.dir")+"/src/resources/spritesheets");
 		fileChooser.setCurrentDirectory(workingDirectory);
 		
@@ -456,12 +434,16 @@ public class Assets
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
 		{
 		 	File file = fileChooser.getSelectedFile();
-		 	String path = "/resources/spritesheets/"+file.getName();
-		 	
-		 	importedSheet = new SpriteSheet(ImageLoader.loadImage(path));
-		 	
+		 	//String path = "/resources/spritesheets/"+file.getName();
+		 	//System.out.println(file.getAbsolutePath());
+			String path = file.getAbsolutePath();
+
+			importedSheet = new SpriteSheet(ImageLoader.loadImageAbsolutePath(path));
+
 			System.out.println("Imported "+path+" as tiles.");
 		}
+		else
+			return;
 		
 		String tempOPString = JOptionPane.showInputDialog("Tile Width?");
 		if(tempOPString != null && !tempOPString.equals(""))
@@ -501,8 +483,8 @@ public class Assets
 			}
 			currentTileTextureX = 0;
 			currentTileTextureY++;
-		}	
-		
+		}
+
 		Tile.setImportedTiles(importedTileTextures);
 	}
 }

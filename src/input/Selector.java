@@ -100,6 +100,7 @@ public class Selector
 	}
 	
 	//Fills tiles (recursive) this will cause stack overflows if you try to fill areas that are too large
+	@SuppressWarnings("unused")
 	private void fill(int x, int y, int oldTileId)
 	{
 	    // Base cases
@@ -143,6 +144,7 @@ public class Selector
 			int x1 = l.x;
 			int y1 = l.y;
 			//fills the tile at determined point
+			//System.out.println("Placing tile on: "+x1+","+y1);
 		    placeTileOnLocation(x1, y1, newTileId);
 		    //checking up down left and right for valid filling.
 		    if(checkFillValidity(x1+1, y1, oldTileId))
@@ -172,11 +174,11 @@ public class Selector
 	{
 	    if ((x < 0 || x >= handler.getWorld().getWidth()) || (y < 0 || y >= handler.getWorld().getHeight()))
 	        return false;
-	    else
-	    	if (handler.getWorld().getTile(x,y,currentLayer).getId() != oldTileId)
-	    		return false;
-	    		else
-	    			return true;
+	    
+	    if (handler.getWorld().getTile(x,y,currentLayer).getId() != oldTileId)
+	    	return false;
+	    	else
+	    		return true;
 	}
 	
 	public void updatePosition()

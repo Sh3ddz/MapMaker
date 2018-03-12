@@ -11,6 +11,9 @@ import input.Selector;
 import main.Handler;
 import worlds.World;
 
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineUnavailableException;
+
 public class MenuState extends State
 {
 	private Selector selector;
@@ -96,18 +99,11 @@ public class MenuState extends State
 				System.out.println("Save World clicked, saving the world.");
 				handler.getWorld().saveWorld();
 			}
-			//LOAD TEXTURE PACK BUTTON
-			if((handler.getKeyManager().cX >= 10 && handler.getKeyManager().cX <= 210) && (handler.getKeyManager().cY >= 145 && handler.getKeyManager().cY <= 195))
-			{
-				System.out.println("Load Texture Pack clicked, loading a texture pack.");
-				handler.getMapMakerCamera().zoomReset();
-				Assets.loadTexturePack();
-				State.setState(handler.getMapMaker().mapMakerState);
-			}
 			//IMPORT TILE BUTTON
 			if((handler.getKeyManager().cX >= 10 && handler.getKeyManager().cX <= 210) && (handler.getKeyManager().cY >= 220 && handler.getKeyManager().cY <= 270))
 			{
-				System.out.println("Import Tiles clicked, importing tiles. (FINISH THIS!)");
+				System.out.println("Import Tiles clicked, importing tiles.");
+				handler.getMapMakerCamera().setZoomLevel(3);
 				Assets.importTiles();
 				State.setState(handler.getMapMaker().mapMakerState);
 			}
@@ -262,16 +258,6 @@ public class MenuState extends State
 	    g.fillRect(220,220,200,50);
 	    g.setColor(Color.BLACK);  
 	    g.drawString("Save World", 270, 250);
-	    
-	    //LOAD TEXTURE PACK button
-	    if((handler.getKeyManager().mX >= 10 && handler.getKeyManager().mX <= 210) && (handler.getKeyManager().mY >= 145 && handler.getKeyManager().mY <= 195))
-	    	g.setColor(Color.GRAY);
-	    else
-	    	g.setColor(Color.WHITE);
-	    g.fillRect(10,145,200,50);
-	    g.setColor(Color.BLACK);  
-	    g.drawString("Load", 85, 165);
-	    g.drawString("Texture Pack", 45, 185);
 
 	    //IMPORT TILES button
 	    if((handler.getKeyManager().mX >= 10 && handler.getKeyManager().mX <= 210) && (handler.getKeyManager().mY >= 220 && handler.getKeyManager().mY <= 270))

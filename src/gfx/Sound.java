@@ -1,10 +1,10 @@
 package gfx;
 
+import java.io.BufferedInputStream;
 import java.io.File;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import java.io.IOException;
+import javax.sound.sampled.*;
+import java.io.InputStream;
 
 public class Sound
 {//SOUNDS
@@ -62,7 +62,7 @@ public class Sound
 		if(Sound.musicVolume > 50)
 			Sound.musicVolume = 50;
 		
-	    //need this since it's looping continuously 
+	    //need this since it's looping continuously
 		FloatControl gainControl = (FloatControl) Sound.music.getControl(FloatControl.Type.MASTER_GAIN);
 	    gainControl.setValue(Sound.musicVolumeChange); 
 	}
@@ -106,8 +106,10 @@ public class Sound
 	{
 		try
 		{
+			InputStream audioSrc = Sound.class.getResourceAsStream("/resources/sound/soundeffects/"+url);
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
 			sfx = AudioSystem.getClip();
-			sfxStream = AudioSystem.getAudioInputStream(new File("src/resources/sound/soundeffects/"+url));
+			sfxStream = AudioSystem.getAudioInputStream(bufferedIn);
 			sfx.open(sfxStream);
 			FloatControl gainControl = (FloatControl) Sound.sfx.getControl(FloatControl.Type.MASTER_GAIN);
 		    gainControl.setValue(Sound.sfxVolumeChange); 
@@ -123,8 +125,10 @@ public class Sound
 	{
 		try
 		{
+			InputStream audioSrc = Sound.class.getResourceAsStream("/resources/sound/music/"+url);
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
 			music = AudioSystem.getClip();
-			musicStream = AudioSystem.getAudioInputStream(new File("src/resources/sound/music/"+url));
+			musicStream = AudioSystem.getAudioInputStream(bufferedIn);
 			music.open(musicStream);
 			music.loop(Clip.LOOP_CONTINUOUSLY);
 	        music.start(); 
@@ -136,7 +140,7 @@ public class Sound
 	        if(url.equals("frc.wav"))
 	        	Sound.currentSongName = "Koe no Katachi -frc";
 	        if(url.equals("pinata.wav"))
-				Sound.currentSongName = "Japanese Wallpaper & Montgomery - Piñata (Kultur Remix)";
+				Sound.currentSongName = "Japanese Wallpaper & Montgomery - Piï¿½ata (Kultur Remix)";
 
 		}
 		catch(Exception e)
